@@ -1,4 +1,5 @@
-*.obj
+*.o
 *.a
+bin
 run.sh
 tags
