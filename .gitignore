@@ -1,0 +1,4 @@
+*.obj
+*.a
+run.sh
+tags
