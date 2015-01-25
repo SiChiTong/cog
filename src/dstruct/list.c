@@ -123,6 +123,12 @@ error:
     return NULL;
 }
 
+void *list_shift(struct list *l)
+{
+    struct list_node *node = l->first;
+    return (node != NULL ? list_remove(l, node) : NULL);
+}
+
 void list_unshift(struct list *list, void *value)
 {
     struct list_node *node;
@@ -144,12 +150,6 @@ void list_unshift(struct list *list, void *value)
 
 error:
     return;
-}
-
-void *list_shift(struct list *l)
-{
-    struct list_node *node = l->first;
-    return (node != NULL ? list_remove(l, node) : NULL);
 }
 
 void *list_remove(struct list *l, struct list_node *n)

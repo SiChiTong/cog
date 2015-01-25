@@ -10,19 +10,34 @@ static char *test2 = "test2 data";
 static char *test3 = "test3 data";
 
 /* PROTOTYPES */
-int test_list_create(void);
+void setup(void);
+void teardown(void);
+int test_list_create_and_destroy(void);
 int test_list_push_pop(void);
+int test_list_shift(void);
 int test_list_unshift(void);
 int test_list_remove(void);
-int test_list_shift(void);
-int test_list_destroy(void);
 void test_suite(void);
 
 
-int test_list_create(void)
+void setup(void)
 {
     list = list_create();
+}
+
+void teardown(void)
+{
+    list_clear_destroy(list);
+}
+
+int test_list_create_and_destroy(void)
+{
+    /* create */
+    list = list_create();
     mu_check(list != NULL);
+
+    /* clear destroy */
+    list_clear_destroy(list);
 
     return 0;
 }
@@ -30,6 +45,8 @@ int test_list_create(void)
 int test_list_push_pop(void)
 {
     char *val = NULL;
+
+    setup();
 
     /* push tests */
     list_push(list, test1);
@@ -53,72 +70,89 @@ int test_list_push_pop(void)
     mu_check(val == test1);
     mu_check(list->length == 0);
 
-    return 0;
-}
-
-int test_list_unshift(void)
-{
-    list_unshift(list, test1);
-    mu_check(strcmp(list->first->value, test1) == 0);
-
-    list_unshift(list, test2);
-    mu_check(strcmp(list->first->value, test2) == 0);
-
-    list_unshift(list, test3);
-    mu_check(strcmp(list->first->value, test3) == 0);
-    mu_check(list->length == 3);
-
-    return 0;
-}
-
-int test_list_remove(void)
-{
-    // we only need to test the middle remove case since push/shift
-    // already tests the other cases
-    char *val = NULL;
-
-    val = list_remove(list, list->first->next);
-    mu_check(val == test2);
-    mu_check(list->length == 2);
-    mu_check(strcmp(list->first->value, test3) == 0);
-    mu_check(strcmp(list->last->value, test1) == 0);
+    teardown();
 
     return 0;
 }
 
 int test_list_shift(void)
 {
-    mu_check(list->length != 0);
+    char *val;
 
-    char *val = list_shift(list);
-    mu_check(val == test3);
+    setup();
 
+    /* push elements */
+    list_push(list, test1);
+    list_push(list, test2);
+    list_push(list, test3);
+
+    /* test shift */
     val = list_shift(list);
     mu_check(val == test1);
-    mu_check(list->length == 0);
+    mu_check(list->length == 2);
+
+    val = list_shift(list);
+    mu_check(val == test2);
+    mu_check(list->length == 1);
+
+    teardown();
 
     return 0;
 }
 
-int test_list_destroy(void)
+int test_list_unshift(void)
 {
-    list_clear_destroy(list);
+    setup();
+
+    /* test unshift */
+    list_unshift(list, test1);
+    mu_check(strcmp(list->first->value, test1) == 0);
+    mu_check(list->length == 1);
+
+    list_unshift(list, test2);
+    mu_check(strcmp(list->first->value, test2) == 0);
+    mu_check(list->length == 2);
+
+    list_unshift(list, test3);
+    mu_check(strcmp(list->first->value, test3) == 0);
+    mu_check(list->length == 3);
+
+    teardown();
+
     return 0;
 }
+
+int test_list_remove(void)
+{
+    char *val;
+
+    setup();
+
+    /* push elements */
+    list_push(list, test1);
+    list_push(list, test2);
+    list_push(list, test3);
+
+    /* test remove */
+    val = list_remove(list, list->first->next);
+    mu_check(val == test2);
+    mu_check(list->length == 2);
+    mu_check(strcmp(list->first->value, test1) == 0);
+    mu_check(strcmp(list->last->value, test3) == 0);
+
+    teardown();
+
+    return 0;
+}
+
 
 void test_suite(void)
 {
-    mu_add_test(test_list_create);
+    mu_add_test(test_list_create_and_destroy);
     mu_add_test(test_list_push_pop);
+    mu_add_test(test_list_shift);
     mu_add_test(test_list_unshift);
     mu_add_test(test_list_remove);
-    mu_add_test(test_list_shift);
-    mu_add_test(test_list_destroy);
 }
 
-int main(void)
-{
-    test_suite();
-    mu_report();
-    return 0;
-}
+mu_run_tests(test_suite)
