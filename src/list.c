@@ -93,12 +93,39 @@ error:
 
 void *list_pop(struct list *list)
 {
+    void *value;
+    struct list_node *last;
+    struct list_node *before_last;
+
+    value = NULL;
+    before_last = NULL;
+
     /* pre-check */
     check(list, LIST_ENULL);
 
-    return (list->last != NULL ? list_remove(list, list->last) : NULL);
+    /* get last */
+    last = list->last;
+    silent_check(last);
+
+    value = last->value;
+    before_last = last->prev;
+    free(last);
+
+    /* pop */
+    if (before_last == NULL && list->length == 1) {
+        list->last = NULL;
+        list->first = NULL;
+    } else {
+        list->last = before_last;
+    }
+    list->length--;
+
+    silent_check(before_last);
+    before_last->next = NULL;
+
+    return value;
 error:
-    return NULL;
+    return value;
 }
 
 void *list_pop_front(struct list *list)
@@ -132,11 +159,24 @@ error:
 
 void *list_shift(struct list *list)
 {
+    void *value;
+    struct list_node *first;
+    struct list_node *second;
+
     /* pre-check */
     check(list, LIST_ENULL);
+    check(list, LIST_EEMPTY);
 
     /* shift */
-    return (list->first != NULL ? list_remove(list, list->first) : NULL);
+    first = list->first;
+    value = first->value;
+    second = list->first->next;
+
+    list->first = second;
+    list->length--;
+    free(first);
+
+    return value;
 error:
     return NULL;
 }
@@ -151,8 +191,8 @@ void list_unshift(struct list *list, void *value)
     /* unshift */
     node = calloc(1, sizeof(struct list_node));
     check_mem(node);
-
     node->value = value;
+
     if (list->first == NULL) {
         list->first = node;
         list->last = node;
@@ -168,49 +208,39 @@ error:
     return;
 }
 
-void *list_remove(struct list *list, struct list_node *n)
+void *list_remove(
+    struct list *list,
+    void *value,
+    int (*cmp)(const void *, const void *)
+)
 {
-    void *result = NULL;
-    struct list_node *before = NULL;
-    struct list_node *after = NULL;
+    struct list_node *node;
 
-    /* pre-check */
-    check(list, LIST_ENULL);
-    check(list->first, LIST_EEMPTY);
-    check(n, LIST_EINNODE);
+    node = list->first;
+    while (node != NULL) {
+        if (cmp(node->value, value) == 0) {
+            /* in the case of removing last node in list */
+            if (node == list->last) {
+                list->last = node->prev;
+                list->first->next = NULL;
+                list->length--;
 
-    /* remove */
-    if (n == list->first && n == list->last) {
-        list->first = NULL;
-        list->last = NULL;
+                node->prev->next = NULL;
+                free(node);
 
-    } else if (n == list->first) {
-        list->first = n->next;
-        check(
-            list->first != NULL,
-            "Invalid list, somehow got a first that is NULL!"
-        );
-        list->first->prev = NULL;
+            /* remove others */
+            } else {
+                node->prev->next = node->next;
+                free(node);
+                list->length--;
 
-    } else if (n == list->last) {
-        list->last = n->prev;
-        check(
-                list->last != NULL,
-                "Invalid list, somehow got a next that is NULL!"
-             );
-        list->last->next = NULL;
+            }
 
-    } else {
-        before = n->prev;
-        after = n->next;
-        after->prev = before;
-        before->next = after;
+            return value;
+        }
 
+        node = node->next;
     }
 
-    result = n->value;
-    free(n);
-    list->length--;
-error:
-    return result;
+    return NULL;
 }

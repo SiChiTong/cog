@@ -1,17 +1,16 @@
 #include <string.h>
 
 #include "munit.h"
+#include "utils.h"
 #include "list.h"
 
 /* GLOBAL VARIABLES */
 static struct list *list = NULL;
-static char *test1 = "test1 data";
-static char *test2 = "test2 data";
-static char *test3 = "test3 data";
 
 /* PROTOTYPES */
 void setup(void);
 void teardown(void);
+int strcmp_wrapper(const void *v1, const void *v2);
 int test_list_create_and_destroy(void);
 int test_list_push_pop(void);
 int test_list_shift(void);
@@ -30,6 +29,11 @@ void teardown(void)
     list_clear_destroy(list);
 }
 
+int strcmp_wrapper(const void *v1, const void *v2)
+{
+    return strcmp(v1, v2);
+}
+
 int test_list_create_and_destroy(void)
 {
     /* create */
@@ -44,31 +48,49 @@ int test_list_create_and_destroy(void)
 
 int test_list_push_pop(void)
 {
-    char *val = NULL;
+    char *t1;
+    char *t2;
+    char *t3;
+    char *val;
 
     setup();
 
+    t1 = malloc_string("test1 data");
+    t2 = malloc_string("test2 data");
+    t3 = malloc_string("test3 data");
+
     /* push tests */
-    list_push(list, test1);
-    mu_check(strcmp(list->last->value, test1) == 0);
+    list_push(list, t1);
+    mu_check(strcmp(list->last->value, t1) == 0);
 
-    list_push(list, test2);
-    mu_check(strcmp(list->last->value, test2) == 0);
+    list_push(list, t2);
+    mu_check(strcmp(list->last->value, t2) == 0);
 
-    list_push(list, test3);
-    mu_check(strcmp(list->last->value, test3) == 0);
+    list_push(list, t3);
+    mu_check(strcmp(list->last->value, t3) == 0);
     mu_check(list->length == 3);
 
     /* pop tests */
     val = list_pop(list);
-    mu_check(val == test3);
+    mu_check(val == t3);
+    mu_check(list->first->value == t1);
+    mu_check(list->last->value == t2);
+    mu_check(list->length == 2);
+    free(val);
 
     val = list_pop(list);
-    mu_check(val == test2);
+    mu_check(val == t2);
+    mu_check(list->first->value == t1);
+    mu_check(list->last->value == t1);
+    mu_check(list->length == 1);
+    free(val);
 
     val = list_pop(list);
-    mu_check(val == test1);
+    mu_check(val == t1);
+    mu_check(list->first == NULL);
+    mu_check(list->last == NULL);
     mu_check(list->length == 0);
+    free(val);
 
     teardown();
 
@@ -77,23 +99,29 @@ int test_list_push_pop(void)
 
 int test_list_shift(void)
 {
+    char *t1;
+    char *t2;
     char *val;
 
     setup();
 
+    t1 = malloc_string("test1 data");
+    t2 = malloc_string("test2 data");
+
     /* push elements */
-    list_push(list, test1);
-    list_push(list, test2);
-    list_push(list, test3);
+    list_push(list, t1);
+    list_push(list, t2);
 
     /* test shift */
     val = list_shift(list);
-    mu_check(val == test1);
-    mu_check(list->length == 2);
+    mu_check(val == t1);
+    mu_check(list->length == 1);
+    free(val);
 
     val = list_shift(list);
-    mu_check(val == test2);
-    mu_check(list->length == 1);
+    mu_check(val == t2);
+    mu_check(list->length == 0);
+    free(val);
 
     teardown();
 
@@ -102,19 +130,30 @@ int test_list_shift(void)
 
 int test_list_unshift(void)
 {
+    char *t1;
+    char *t2;
+    char *t3;
+
     setup();
 
+    t1 = malloc_string("test1 data");
+    t2 = malloc_string("test2 data");
+    t3 = malloc_string("test3 data");
+
     /* test unshift */
-    list_unshift(list, test1);
-    mu_check(strcmp(list->first->value, test1) == 0);
+    list_unshift(list, t1);
+    mu_check(strcmp(list->first->value, t1) == 0);
+    mu_check(strcmp(list->first->value, t1) == 0);
     mu_check(list->length == 1);
 
-    list_unshift(list, test2);
-    mu_check(strcmp(list->first->value, test2) == 0);
+    list_unshift(list, t2);
+    mu_check(strcmp(list->first->value, t2) == 0);
+    mu_check(strcmp(list->first->value, t2) == 0);
     mu_check(list->length == 2);
 
-    list_unshift(list, test3);
-    mu_check(strcmp(list->first->value, test3) == 0);
+    list_unshift(list, t3);
+    mu_check(strcmp(list->first->value, t3) == 0);
+    mu_check(strcmp(list->first->value, t3) == 0);
     mu_check(list->length == 3);
 
     teardown();
@@ -124,21 +163,39 @@ int test_list_unshift(void)
 
 int test_list_remove(void)
 {
-    char *val;
+    char *t1;
+    char *t2;
+    char *t3;
+    void *value;
 
     setup();
 
-    /* push elements */
-    list_push(list, test1);
-    list_push(list, test2);
-    list_push(list, test3);
+    t1 = malloc_string("test1 data");
+    t2 = malloc_string("test2 data");
+    t3 = malloc_string("test3 data");
 
-    /* test remove */
-    val = list_remove(list, list->first->next);
-    mu_check(val == test2);
+    /* push elements */
+    list_push(list, t1);
+    list_push(list, t2);
+    list_push(list, t3);
+
+    /* remove 2nd value */
+    value = list_remove(list, t2, strcmp_wrapper);
+    free(value);
+
+    /* assert */
     mu_check(list->length == 2);
-    mu_check(strcmp(list->first->value, test1) == 0);
-    mu_check(strcmp(list->last->value, test3) == 0);
+    mu_check(strcmp(list->first->next->value, t3) == 0);
+    mu_check(strcmp(list->first->value, t1) == 0);
+
+    /* remove 2nd value */
+    value = list_remove(list, t3, strcmp_wrapper);
+    free(value);
+
+    /* assert */
+    mu_check(list->length == 1);
+    mu_check(list->first->next == NULL);
+    mu_check(strcmp(list->first->value, t1) == 0);
 
     teardown();
 

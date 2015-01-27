@@ -1,5 +1,5 @@
 #!/bin/sh
-COMMAND=valgrind
+COMMAND='valgrind --error-exitcode=-1 --show-leak-kinds=all --leak-check=full'
 TESTS_DIR='bin'
 LOG_TESTS=0
 LOG_PATH=$TESTS_DIR/log

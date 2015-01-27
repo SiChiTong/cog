@@ -34,7 +34,8 @@ void *list_shift(struct list *list);
 void list_unshift(struct list *list, void *value);
 void *list_remove(
     struct list *list,
-    struct list_node *node
+    void *target,
+    int (*cmp)(const void *, const void *)
 );
 
 #endif
