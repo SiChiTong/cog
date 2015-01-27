@@ -1,4 +1,4 @@
-#include "dstruct/darray.h"
+#include "darray.h"
 
 
 struct darray *darray_create(size_t element_size, size_t initial_max)
@@ -149,7 +149,6 @@ struct darray *darray_copy(struct darray *array)
 
     /* pre-check */
     check(array != NULL, DARRAY_ENULL);
-
 
     /* copy first element */
     array_copy = darray_create(array->element_size, (size_t) array->max);

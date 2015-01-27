@@ -5,11 +5,8 @@ OBJS = $(SRCS:.c=.o)
 
 default: $(OBJS) libcog
 
-libdstruct:
-	@make -s -C dstruct
-
 %.o: %.c
 	$(COMPILE_OBJ)
 
-libcog: libdstruct
+libcog:
 	$(MAKE_STATIC_LIB)

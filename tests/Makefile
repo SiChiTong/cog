@@ -1,4 +1,9 @@
 include $(PWD)/config.mk
 
-default:
-	@make -s -C dstruct
+SRCS = $(wildcard *.c)
+TESTS = $(SRCS:.c=)
+
+default: $(TESTS)
+
+%: %.c
+	$(MAKE_TEST)

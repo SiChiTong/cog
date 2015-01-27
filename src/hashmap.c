@@ -3,8 +3,8 @@
 
 #include "utils.h"
 
-#include "dstruct/list.h"
-#include "dstruct/hashmap.h"
+#include "list.h"
+#include "hashmap.h"
 
 
 static inline int default_compare(void *a, void *b)

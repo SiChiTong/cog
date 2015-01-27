@@ -1,6 +1,6 @@
 #include "munit.h"
 
-#include "dstruct/hashmap.h"
+#include "hashmap.h"
 
 /* GLOBAL VARIABLES */
 static struct hashmap *map = NULL;

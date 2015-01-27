@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "dstruct/stack.h"
+#include "stack.h"
 
 
 struct stack *stack_create(int limit)

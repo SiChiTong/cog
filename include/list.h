@@ -16,6 +16,11 @@ struct list {
     struct list_node *last;
 };
 
+/* ERROR MESSAGES */
+#define LIST_ENULL "list is NULL!"
+#define LIST_EEMPTY "list is empty!"
+#define LIST_EINNODE "input node is NULL!"
+
 
 /* FUNCTIONS */
 struct list *list_create(void);

@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#include "dstruct/list.h"
+#include "list.h"
 
 
 /* STRUCTURES */

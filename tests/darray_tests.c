@@ -1,7 +1,7 @@
 #include "munit.h"
 
 #include "utils.h"
-#include "dstruct/darray.h"
+#include "darray.h"
 
 
 /* GLOBAL VARIABLES */

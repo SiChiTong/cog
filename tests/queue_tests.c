@@ -4,7 +4,7 @@
 #include "munit.h"
 #include "utils.h"
 
-#include "dstruct/queue.h"
+#include "queue.h"
 
 /* GLOBAL VARIABLES */
 static struct queue *q = NULL;

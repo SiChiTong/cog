@@ -19,7 +19,6 @@ rmdirs:
 	@rm -rf bin
 	@rm -rf obj
 	@rm -rf lib
-	@rm -rf tests/*.dSYM
 
 run_tests: scripts/unittest_runner.py
 	@./$<

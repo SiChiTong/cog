@@ -1,7 +1,7 @@
 #include <string.h>
 
 #include "munit.h"
-#include "dstruct/list.h"
+#include "list.h"
 
 /* GLOBAL VARIABLES */
 static struct list *list = NULL;

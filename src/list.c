@@ -1,6 +1,6 @@
 #include "utils.h"
 
-#include "dstruct/list.h"
+#include "list.h"
 
 
 struct list *list_create()
@@ -68,6 +68,9 @@ void list_push(struct list *list, void *value)
 {
     struct list_node *node;
 
+    /* pre-check */
+    check(list, LIST_ENULL);
+
     /* initialize node */
     node = calloc( 1, sizeof(struct list_node));
     check_mem(node);
@@ -90,8 +93,12 @@ error:
 
 void *list_pop(struct list *list)
 {
-    struct list_node *node = list->last;
-    return (node != NULL ? list_remove(list, node) : NULL);
+    /* pre-check */
+    check(list, LIST_ENULL);
+
+    return (list->last != NULL ? list_remove(list, list->last) : NULL);
+error:
+    return NULL;
 }
 
 void *list_pop_front(struct list *list)
@@ -101,7 +108,7 @@ void *list_pop_front(struct list *list)
     struct list_node *next_node;
 
     /* pre-check */
-    check(list->first != NULL, "list is empty!");
+    check(list->first != NULL, LIST_EEMPTY);
 
     /* pop front */
     first_node = list->first;
@@ -123,16 +130,25 @@ error:
     return NULL;
 }
 
-void *list_shift(struct list *l)
+void *list_shift(struct list *list)
 {
-    struct list_node *node = l->first;
-    return (node != NULL ? list_remove(l, node) : NULL);
+    /* pre-check */
+    check(list, LIST_ENULL);
+
+    /* shift */
+    return (list->first != NULL ? list_remove(list, list->first) : NULL);
+error:
+    return NULL;
 }
 
 void list_unshift(struct list *list, void *value)
 {
     struct list_node *node;
 
+    /* pre-check */
+    check(list, LIST_ENULL);
+
+    /* unshift */
     node = calloc(1, sizeof(struct list_node));
     check_mem(node);
 
@@ -152,34 +168,37 @@ error:
     return;
 }
 
-void *list_remove(struct list *l, struct list_node *n)
+void *list_remove(struct list *list, struct list_node *n)
 {
     void *result = NULL;
     struct list_node *before = NULL;
     struct list_node *after = NULL;
 
-    check(l->first && l->last, "list is empty!");
-    check(n, "node can't be NULL");
+    /* pre-check */
+    check(list, LIST_ENULL);
+    check(list->first, LIST_EEMPTY);
+    check(n, LIST_EINNODE);
 
-    if (n == l->first && n == l->last) {
-        l->first = NULL;
-        l->last = NULL;
+    /* remove */
+    if (n == list->first && n == list->last) {
+        list->first = NULL;
+        list->last = NULL;
 
-    } else if (n == l->first) {
-        l->first = n->next;
+    } else if (n == list->first) {
+        list->first = n->next;
         check(
-            l->first != NULL,
+            list->first != NULL,
             "Invalid list, somehow got a first that is NULL!"
         );
-        l->first->prev = NULL;
+        list->first->prev = NULL;
 
-    } else if (n == l->last) {
-        l->last = n->prev;
+    } else if (n == list->last) {
+        list->last = n->prev;
         check(
-                l->last != NULL,
+                list->last != NULL,
                 "Invalid list, somehow got a next that is NULL!"
              );
-        l->last->next = NULL;
+        list->last->next = NULL;
 
     } else {
         before = n->prev;
@@ -191,7 +210,7 @@ void *list_remove(struct list *l, struct list_node *n)
 
     result = n->value;
     free(n);
-    l->length--;
+    list->length--;
 error:
     return result;
 }

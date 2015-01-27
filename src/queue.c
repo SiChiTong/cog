@@ -1,4 +1,4 @@
-#include "dstruct/queue.h"
+#include "queue.h"
 
 
 struct queue *queue_create(int limit)

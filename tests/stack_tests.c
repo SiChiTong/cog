@@ -4,7 +4,7 @@
 #include "munit.h"
 #include "utils.h"
 
-#include "dstruct/stack.h"
+#include "stack.h"
 
 /* GLOBAL VARIABLES */
 static struct stack *s = NULL;

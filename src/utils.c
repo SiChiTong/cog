@@ -61,7 +61,6 @@ char *malloc_string(const char *s)
 }
 
 
-
 /* STRING */
 int trim_char(const char c)
 {
@@ -105,7 +104,6 @@ char *trim(const char *s)
 error:
     return NULL;
 }
-
 
 
 /* RANDOM */

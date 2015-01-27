@@ -7,13 +7,16 @@
 
 
 /* TESTS */
+int test_intcmp(void);
+int test_fltcmp(void);
+int test_epsilon_float_cmp(void);
 int test_trim_char(void);
 int test_trim(void);
 int test_copy_value(void);
 int test_randi(void);
 void test_suite(void);
 
-int test_int_cmp()
+int test_intcmp()
 {
     int val_1 = 1;
     int val_2 = 1;
@@ -22,21 +25,21 @@ int test_int_cmp()
 
     /* ASCENDING TESTS */
     /* when val_1 and val_2 are equal */
-    int result = int_cmp_asc(&val_1, &val_2);
+    int result = intcmp_asc(&val_1, &val_2);
     mu_assert(result == 0, "Result should be 0!");
 
     /* when val_2 is bigger than val_1 */
     val_2 = 10;
-    result = int_cmp_asc(&val_1, &val_2);
+    result = intcmp_asc(&val_1, &val_2);
     mu_assert(result == -1, "Result should be -1!");
 
     /* when val_1 is bigger than val_2 */
     val_2 = -1;
-    result = int_cmp_asc(&val_1, &val_2);
+    result = intcmp_asc(&val_1, &val_2);
     mu_assert(result == 1, "Result should be 1!");
 
     /* when val_1 and val_2 are pointers */
-    result = int_cmp_asc(val_ptr_1, val_ptr_2);
+    result = intcmp_asc(val_ptr_1, val_ptr_2);
     mu_assert(result == 1, "Result should be 1!");
 
 
@@ -49,164 +52,72 @@ int test_int_cmp()
 
     /* DESCENDING TESTS */
     /* when val_1 and val_2 are equal */
-    result = int_cmp_desc(&val_1, &val_2);
+    result = intcmp_desc(&val_1, &val_2);
     mu_assert(result == 0, "Result should be 0!");
 
     /* when val_2 is bigger than val_1 */
     val_2 = 10;
-    result = int_cmp_desc(&val_1, &val_2);
+    result = intcmp_desc(&val_1, &val_2);
     mu_assert(result == 1, "Result should be 1!");
 
     /* when val_1 is bigger than val_2 */
     val_2 = -1;
-    result = int_cmp_desc(&val_1, &val_2);
+    result = intcmp_desc(&val_1, &val_2);
     mu_assert(result == -1, "Result should be -1!");
 
     /* when val_1 and val_2 are pointers */
-    result = int_cmp_desc(val_ptr_1, val_ptr_2);
+    result = intcmp_desc(val_ptr_1, val_ptr_2);
     mu_assert(result == -1, "Result should be -1!");
 
     return 0;
 }
 
-int test_float_cmp()
+int test_fltcmp()
 {
-    float val_1 = 1.0;
-    float val_2 = 1.0;
+    float val_1 = 1.0f;
+    float val_2 = 1.0f;
 
     /* ASCENDING TESTS */
     /* when val_1 and val_2 are equal */
-    int result = float_cmp_asc(&val_1, &val_2);
+    int result = fltcmp_asc(&val_1, &val_2);
     mu_assert(result == 0, "Result should be 0!");
 
     /* when val_2 is bigger than val_1 */
-    val_1 = 0.001;
-    val_2 = 0.01;
-    result = float_cmp_asc(&val_1, &val_2);
+    val_1 = 0.001f;
+    val_2 = 0.01f;
+    result = fltcmp_asc(&val_1, &val_2);
     mu_assert(result == -1, "Result should be -1!");
 
     /* when val_1 is bigger than val_2 */
-    val_1 = 0.01;
-    val_2 = 0.001;
-    result = float_cmp_asc(&val_1, &val_2);
+    val_1 = 0.01f;
+    val_2 = 0.001f;
+    result = fltcmp_asc(&val_1, &val_2);
     mu_assert(result == 1, "Result should be 1!");
 
 
     /* resetting values */
-    val_1 = 1.0;
-    val_2 = 1.0;
+    val_1 = 1.0f;
+    val_2 = 1.0f;
 
 
     /* DESCENDING TESTS */
-    result = float_cmp_desc(&val_1, &val_2);
+    result = fltcmp_desc(&val_1, &val_2);
     mu_assert(result == 0, "Result should be 0!");
 
     /* when val_2 is bigger than val_1 */
-    val_1 = 0.001;
-    val_2 = 0.01;
-    result = float_cmp_desc(&val_1, &val_2);
+    val_1 = 0.001f;
+    val_2 = 0.01f;
+    result = fltcmp_desc(&val_1, &val_2);
     mu_assert(result == 1, "Result should be 1!");
 
     /* when val_1 is bigger than val_2 */
-    val_1 = 0.01;
-    val_2 = 0.001;
-    result = float_cmp_desc(&val_1, &val_2);
+    val_1 = 0.01f;
+    val_2 = 0.001f;
+    result = fltcmp_desc(&val_1, &val_2);
     mu_assert(result == -1, "Result should be -1!");
 
     return 0;
 }
-
-int test_epsilon_float_cmp()
-{
-    float val_1 = 1.0;
-    float val_2 = 1.0;
-    float epsilon = 0.00001;
-
-    /* ASCENDING TESTS */
-    /* when val_1 and val_2 are equal */
-    int result = float_epsilon_cmp_asc(&val_1, &val_2, epsilon);
-    mu_assert(result == 0, "Result should be 0!");
-
-    /* when val_2 is bigger than val_1 */
-    val_1 = 0.001;
-    val_2 = 0.01;
-    result = float_epsilon_cmp_asc(&val_1, &val_2, epsilon);
-    mu_assert(result == -1, "Result should be -1!");
-
-    /* when val_1 is bigger than val_2 */
-    val_1 = 0.01;
-    val_2 = 0.001;
-    result = float_epsilon_cmp_asc(&val_1, &val_2, epsilon);
-    mu_assert(result == 1, "Result should be 1!");
-
-    /* resetting values */
-    val_1 = 1.0;
-    val_2 = 1.0;
-
-
-    /* DESCENDING TESTS */
-    result = float_epsilon_cmp_desc(&val_1, &val_2, epsilon);
-    mu_assert(result == 0, "Result should be 0!");
-
-    /* when val_2 is bigger than val_1 */
-    val_1 = 0.001;
-    val_2 = 0.01;
-    result = float_epsilon_cmp_desc(&val_1, &val_2, epsilon);
-    mu_assert(result == 1, "Result should be 1!");
-
-    /* when val_1 is bigger than val_2 */
-    val_1 = 0.01;
-    val_2 = 0.001;
-    result = float_epsilon_cmp_desc(&val_1, &val_2, epsilon);
-    mu_assert(result == -1, "Result should be -1!");
-
-    return 0;
-}
-
-int test_str_cmp()
-{
-    char *val_1 = "B";  /* 'B' has char code 66 */
-    char *val_2 = "B";  /* 'B' has char code 66 */
-
-    /* ASCENDING TESTS */
-    /* when val_1 and val_2 are equal */
-    int result = str_cmp_asc(val_1, val_2);
-    mu_assert(result == 0, "Result should be 0!");
-
-    /* when val_2 is bigger than val_1 */
-    val_2 = "C";  /* 'C' has char code 67 */
-    result = str_cmp_asc(val_1, val_2);
-    mu_assert(result == -1, "Result should be -1!");
-
-    /* when val_1 is bigger than val_2 */
-    val_2 = "A";  /* 'A' has char code 65 */
-    result = str_cmp_asc(val_1, val_2);
-    mu_assert(result == 1, "Result should be 1!");
-
-
-    /* resetting values */
-    val_1 = "B";  /* 'B' has char code 66 */
-    val_2 = "B";  /* 'B' has char code 66 */
-
-
-    /* DESCENDING TESTS */
-    /* when val_1 and val_2 are equal */
-    result = str_cmp_desc(val_1, val_2);
-    mu_assert(result == 0, "Result should be 0!");
-
-    /* when val_2 is bigger than val_1 */
-    val_2 = "C";  /* 'C' has char code 67 */
-    result = str_cmp_desc(val_1, val_2);
-    mu_assert(result == 1, "Result should be 1!");
-
-    /* when val_1 is bigger than val_2 */
-    val_2 = "A";  /* 'A' has char code 65 */
-    result = str_cmp_desc(val_1, val_2);
-    mu_assert(result == -1, "Result should be -1!");
-
-    return 0;
-}
-
 
 int test_trim_char(void)
 {
@@ -296,10 +207,8 @@ int test_randi(void)
 void test_suite(void)
 {
     srand((unsigned int) time(NULL));
-    mu_add_test(test_int_cmp);
-    mu_add_test(test_float_cmp);
-    mu_add_test(test_epsilon_float_cmp);
-    mu_add_test(test_str_cmp);
+    mu_add_test(test_intcmp);
+    mu_add_test(test_fltcmp);
 
     mu_add_test(test_trim_char);
     mu_add_test(test_trim);
@@ -308,4 +217,4 @@ void test_suite(void)
     mu_add_test(test_randi);
 }
 
-mu_add_tests(test_suite)
+mu_run_tests(test_suite)
