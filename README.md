@@ -4,7 +4,12 @@ heavily based on the code [Zed Shaw][2] produced in [Learn C the Hard Way][3].
 
 Features:
 
+**Data Structures**:
 - Dynamic Array
+- List
+- Queue
+- Stack
+- Hashmap
 
 ## Installation
 
