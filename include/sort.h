@@ -11,19 +11,16 @@
 #endif
 
 
-
 /* FUNCTIONS */
 void selection_sort(
     void **arr,
-    int start,
-    int end,
-    int(*cmp)(const void *, const void *)
+    size_t len,
+    int (*cmp)(const void *, const void *)
 );
 void insertion_sort(
     void **arr,
-    int start,
-    int end,
-    int(*cmp)(const void *, const void *)
+    size_t len,
+    int (*cmp)(const void *, const void *)
 );
 int partition(
     void *arr,

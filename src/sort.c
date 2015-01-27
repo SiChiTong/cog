@@ -2,61 +2,52 @@
 #include "utils.h"
 
 
-/* static void swap_ptr(void **arr, int index_1, int index_2) */
-/* { */
-/*     void *tmp = arr[index_1]; */
-/*     arr[index_1] = arr[index_2]; */
-/*     arr[index_2] = tmp; */
-/* } */
-/*  */
-/* void selection_sort( */
-/*     void **arr, */
-/*     int start, */
-/*     int end, */
-/*     int(*cmp)(const void *, const void *) */
-/* ) */
-/* { */
-/*     int i = 0; */
-/*     int j = 0; */
-/*     int min = 0; */
-/*  */
-/*     for (i = start; i < end; i++) { */
-/*         min = i; */
-/*         for (j = i + 1; j <= end; j++) { */
-/*             if (cmp(arr[j], arr[min]) < 0) { */
-/*                 min = j; */
-/*             } */
-/*         } */
-/*         swap_ptr(arr, i, min); */
-/*     } */
-/* } */
-/*  */
-/* void insertion_sort( */
-/*     void **arr, */
-/*     int start, */
-/*     int end, */
-/*     int(*cmp)(const void *, const void *) */
-/* ) */
-/* { */
-/*     int i; */
-/*     int j; */
-/*  */
-/*     j = 0; */
-/*     for (j = start + 1; j <= end; j++) { */
-/*         i = j - 1; */
-/*         memcpy(value, arr + (el_sz * j), el_sz); */
-/*  */
-/*         while (i >= 0 && cmp(arr + (el_sz * i), value) > 0) { */
-/*             memcpy(arr + (el_sz * (i + 1)), arr + (el_sz * i), el_sz); */
-/*             i--; */
-/*         } */
-/*  */
-/*         memcpy(arr + (el_sz * (i + 1)), value, el_sz); */
-/*     } */
-/*  */
-/*     if (value) free(value); */
-/*     value = NULL; */
-/* } */
+static void swap_ptr(void **arr, size_t index_1, size_t index_2)
+{
+    void *tmp = arr[index_1];
+    arr[index_1] = arr[index_2];
+    arr[index_2] = tmp;
+}
+
+void selection_sort(
+    void **arr,
+    size_t len,
+    int (*cmp)(const void *, const void *)
+)
+{
+    size_t i;
+    size_t j;
+    size_t min;
+
+    for (i = 0; i < len - 1; i++) {
+        min = i;
+        for (j = i + 1; j <= len - 1; j++) {
+            if (cmp(arr[j], arr[min]) < 0) {
+                min = j;
+            }
+        }
+        swap_ptr(arr, i, min);
+    }
+}
+
+void insertion_sort(
+    void **arr,
+    size_t len,
+    int(*cmp)(const void *, const void *)
+)
+{
+    size_t i;
+    size_t j;
+
+    for (i = 1; i <= len - 1; i++) {
+        j = i;
+
+        while (j > 0 && cmp(arr[j - 1], arr[j]) > 0) {
+            swap_ptr(arr, j - 1, j);
+            j--;
+        }
+    }
+}
 
 /* int partition( */
 /*     void *arr, */
