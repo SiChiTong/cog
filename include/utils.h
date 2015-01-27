@@ -103,6 +103,7 @@ char *trim(const char *s);
 /* RANDOM */
 int randi(int min, int max);
 float randf(float min, float max);
+char *randstr(size_t length);
 void *sample(void **array, int array_length);
 
 
@@ -125,5 +126,6 @@ int dblcmp_asc(const void *v1, const void *v2);
 int dblcmp_desc(const void *v1, const void *v2);
 
 int cmp_values(int value_type, void *v1, void *v2);
+
 
 #endif

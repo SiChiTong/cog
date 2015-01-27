@@ -137,11 +137,31 @@ error:
     return min + 1;
 }
 
+char *randstr(size_t length)
+{
+    size_t i;
+    char *r_str;
+
+    r_str  = malloc(sizeof(char *) * length);
+    check_mem(r_str);
+
+    /* generate random ASCII char */
+    memset(r_str, '\0', sizeof(char *) * length);
+    for (i = 0; i < length; i++) {
+        r_str[i] = (char) randi(32, 122);
+    }
+
+    r_str[length] = '\0'; /* add null terminator for safety */
+    return r_str;
+error:
+    free_mem(r_str, free);
+    return NULL;
+}
+
 void *sample(void **array, int array_length)
 {
     return array[randi(0, array_length)];
 }
-
 
 
 /* COMPARATOR */

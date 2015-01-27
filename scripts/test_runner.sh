@@ -78,7 +78,7 @@ run_test() {
 }
 
 main() {
-    TESTS=$(find ${TESTS_DIR} -type f ! -path "${LOG_PATH}/*")
+    TESTS=$(find ${TESTS_DIR} -type f ! -path "${LOG_PATH}/*" ! -iname "random_data_generator")
     for TEST in $TESTS
     do
         run_test
