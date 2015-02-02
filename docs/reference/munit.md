@@ -1,4 +1,4 @@
-# cog.h
+# munit.h
 `munit` is a minimalistic unit testing framework for C, less than 100 lines. It
 is not meant to be fully featured, but it is meant to be as minimal as
 possible. The work is heavily based on John Brewer's minunit. The only real

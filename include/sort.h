@@ -22,13 +22,12 @@ void insertion_sort(
     size_t len,
     int (*cmp)(const void *, const void *)
 );
-int partition(
-    void *arr,
-    size_t el_sz,
-    int pivot_index,
-    int start,
-    int end,
-    int(*cmp)(const void *, const void *)
+size_t partition(
+    void **arr,
+    size_t pivot_index,
+    size_t start,
+    size_t end,
+    int (*cmp)(const void *, const void *)
 );
 int quick_select(
     void *arr,
@@ -43,32 +42,32 @@ void median_sort(
     size_t el_sz,
     int left,
     int right,
-    int(*cmp)(const void *, const void *)
+    int (*cmp)(const void *, const void *)
 );
 void quick_sort(
     void *arr,
     size_t el_sz,
     int left,
     int right,
-    int(*cmp)(const void *, const void *)
+    int (*cmp)(const void *, const void *)
 );
 void heapify(
     void *arr,
     size_t el_sz,
     int index,
     int max,
-    int(*cmp)(const void *, const void *)
+    int (*cmp)(const void *, const void *)
 );
 void build_heap(
     void *arr,
     size_t el_sz,
     int n,
-    int(*cmp)(const void *, const void *)
+    int (*cmp)(const void *, const void *)
 );
 void heap_sort(
     void *arr,
     size_t el_sz,
     int n,
-    int(*cmp)(const void *, const void *)
+    int (*cmp)(const void *, const void *)
 );
 #endif

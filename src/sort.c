@@ -2,7 +2,7 @@
 #include "utils.h"
 
 
-static void swap_ptr(void **arr, size_t index_1, size_t index_2)
+static inline void swap_ptr(void **arr, size_t index_1, size_t index_2)
 {
     void *tmp = arr[index_1];
     arr[index_1] = arr[index_2];
@@ -49,38 +49,31 @@ void insertion_sort(
     }
 }
 
-/* int partition( */
-/*     void *arr, */
-/*     size_t el_sz, */
-/*     int pivot_index, */
-/*     int start, */
-/*     int end, */
+/* size_t partition( */
+/*     void **arr, */
+/*     size_t pivot_index, */
+/*     size_t start, */
+/*     size_t end, */
 /*     int(*cmp)(const void *, const void *) */
 /* ) */
 /* { */
-/*     int i = 0; */
-/*     int store = 0; */
-/*     void *pivot_value = calloc(1, el_sz); */
+/*     size_t i; */
+/*     size_t store; */
 /*  */
-/*     #<{(| keep hold of pivot value |)}># */
-/*     memcpy(pivot_value, arr + (el_sz * pivot_index), el_sz); */
-/*  */
-/*     #<{(| move pivot_value to the end of the array |)}># */
-/*     swap_el(arr, el_sz, end, pivot_index); */
+/*     #<{(| move pivot element to the end of the array |)}># */
+/*     swap_ptr(arr, pivot_index, end); */
 /*  */
 /*     #<{(| values <= pivot_value, move to front of array */
 /*      * values > pivot_value, insert after pivot index |)}># */
 /*     store = start; */
 /*     for (i = start; i < end; i++) { */
-/*         if (cmp(arr + (el_sz * i), pivot_value) <= 0) { */
-/*             swap_el(arr, el_sz, i, store); */
+/*         if (cmp(arr[i], arr[pivot_index]) <= 0) { */
+/*             swap_ptr(arr, i, store); */
 /*             store++; */
 /*         } */
 /*     } */
+/*     swap_ptr(arr, end, store); */
 /*  */
-/*     swap_el(arr, el_sz, end, store); */
-/*  */
-/*     if (pivot_value) free(pivot_value); */
 /*     return store; */
 /* } */
 /*  */
@@ -122,7 +115,7 @@ void insertion_sort(
 /*         ); */
 /*     } */
 /* } */
-/*  */
+
 /* void median_sort( */
 /*     void *arr, */
 /*     size_t el_sz, */

@@ -9,6 +9,7 @@ void teardown(void **array, size_t len);
 int sorted(void **arr, size_t len, int (*cmp)(const void *, const void *));
 int test_selection_sort(void);
 int test_insertion_sort(void);
+int test_partition(void);
 void test_suite(void);
 
 
@@ -81,10 +82,38 @@ int test_insertion_sort(void)
     return 0;
 }
 
+/* int test_partition(void) */
+/* { */
+/*     int i; */
+/*     size_t len; */
+/*     void **arr; */
+/*  */
+/*     len = 10; */
+/*     arr = setup(len); */
+/*  */
+/*     printf("before\n"); */
+/*     for (i = 0; i < len; i++) { */
+/*         printf("%d\n", *(int *) arr[i]); */
+/*     } */
+/*  */
+/*     partition(arr, 5, 0, len - 1, intcmp); */
+/*     #<{(| mu_check(sorted(arr, len, intcmp) == 1); |)}># */
+/*  */
+/*     printf("\nafter\n"); */
+/*     for (i = 0; i < len; i++) { */
+/*         printf("%d\n", *(int *) arr[i]); */
+/*     } */
+/*  */
+/*     teardown(arr, len); */
+/*  */
+/*     return 0; */
+/* } */
+
 void test_suite(void)
 {
     mu_add_test(test_selection_sort);
     mu_add_test(test_insertion_sort);
+    /* mu_add_test(test_partition); */
 }
 
 mu_run_tests(test_suite)
