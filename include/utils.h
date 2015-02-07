@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <unistd.h>
 #include <sys/stat.h>
 
 
@@ -134,6 +135,7 @@ int cmp_values(int value_type, void *v1, void *v2);
 /* FILE UTILS */
 off_t fsize(const char *file_path);
 char *fstring(const char *file_path);
+int fexists(const char *file_path);
 
 
 #endif

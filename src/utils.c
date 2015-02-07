@@ -307,3 +307,12 @@ char *fstring(const char *file_path)
 
     return str;
 }
+
+int fexists(const char *file_path)
+{
+    if (access(file_path, F_OK) != -1) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
