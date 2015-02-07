@@ -1,9 +1,12 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+#include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <sys/stat.h>
 
 
 /* DEBUG / LOG */
@@ -126,6 +129,11 @@ int dblcmp_asc(const void *v1, const void *v2);
 int dblcmp_desc(const void *v1, const void *v2);
 
 int cmp_values(int value_type, void *v1, void *v2);
+
+
+/* FILE UTILS */
+off_t fsize(const char *file_path);
+char *fstring(const char *file_path);
 
 
 #endif

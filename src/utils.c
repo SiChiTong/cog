@@ -1,7 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-
 #include "utils.h"
 
 
@@ -283,4 +279,31 @@ int cmp_values(int value_type, void *v1, void *v2)
     default:
         return -2;
     }
+}
+
+
+/* FILE UTILS */
+off_t fsize(const char *file_path)
+{
+    struct stat st;
+
+    if (stat(file_path, &st) == 0) {
+        return st.st_size;
+    }
+
+    return -1;
+}
+
+char *fstring(const char *file_path)
+{
+    FILE *fp;
+    char *str;
+    off_t file_size;
+
+    fp = fopen(file_path, "r");
+    file_size = fsize(file_path);
+    str = calloc((size_t) file_size, 1);
+    fread(str, (size_t) file_size, 1, fp);
+
+    return str;
 }
