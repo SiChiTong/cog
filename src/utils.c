@@ -317,16 +317,42 @@ int fexists(const char *file_path)
     }
 }
 
+char *fext(const char *file_path)
+{
+    char *ch;
+    char ext[50];
+    char *copy;
+
+    /* setup */
+    copy = malloc_string(file_path);
+
+    /* get file extension */
+    ch = strtok(copy, ".");
+    while (ch != NULL) {
+        bzero(ext, 50);
+        strcpy(ext, ch);
+        ch = strtok(NULL, ".");
+    }
+
+    /* clean up */
+    free(copy);
+
+    return malloc_string(ext);
+}
+
 
 /* PATH UTILS */
 char *path_join(int len, ...)
 {
     int i;
+    int add_slash;
+    int rm_slash;
     va_list args;
-    char cache[256];
+    char tmp[256];
     char buf[1024];
-    size_t path_length;
     size_t pointer;
+    size_t buflen;
+    size_t path_length;
 
     /* setup */
     pointer = 0;
@@ -334,19 +360,31 @@ char *path_join(int len, ...)
     bzero(buf, 1024);
     va_start(args, len);
 
-    /* join */
+    /* join paths */
     for (i = 0; i < len; i++) {
-        bzero(cache, 256);
-        strcpy(cache, va_arg(args, char *));
+        bzero(tmp, 256);
+        strcpy(tmp, va_arg(args, char *));
 
-        /* add necessary slash */
-        if (strlen(buf) != 0 && buf[strlen(buf) - 1] != '/') {
-            sprintf(buf + pointer, "/%s", cache);
-        } else {
-            sprintf(buf + pointer, "%s", cache);
+        /* check if need to add slash */
+        add_slash = 1;
+        rm_slash = 0;
+        buflen = strlen(buf);
+        if (buf[strlen(buf) - 1] == '/' && tmp[0] == '/') {
+            rm_slash = 1;
+        } else if (buflen == 0 || buf[buflen - 1] == '/' || tmp[0] == '/') {
+            add_slash = 0;
         }
 
-        pointer += strlen(cache);
+        /* build string */
+        if (rm_slash) {
+            sprintf(buf + pointer, "%s", tmp + 1);
+        } else if (add_slash) {
+            sprintf(buf + pointer, "/%s", tmp);
+        } else {
+            sprintf(buf + pointer, "%s", tmp);
+        }
+
+        pointer += strlen(tmp);
     }
 
     return malloc_string(buf);

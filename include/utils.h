@@ -137,6 +137,7 @@ int cmp_values(int value_type, void *v1, void *v2);
 off_t fsize(const char *file_path);
 char *fstring(const char *file_path);
 int fexists(const char *file_path);
+char *fext(const char *file_path);
 
 
 /* PATH UTILS */

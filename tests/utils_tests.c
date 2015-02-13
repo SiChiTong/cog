@@ -17,6 +17,7 @@ int test_randi(void);
 int test_fsize(void);
 int test_fstring(void);
 int test_fexists(void);
+int test_fext(void);
 int test_path_join(void);
 void test_suite(void);
 
@@ -228,6 +229,17 @@ int test_fexists(void)
     return 0;
 }
 
+int test_fext(void)
+{
+    char *ext;
+
+    ext = fext("somefile.beforeext.ext");
+    mu_check(strcmp(ext, "ext") == 0);
+    free(ext);
+
+    return 0;
+}
+
 int test_path_join(void)
 {
     char *path;
@@ -236,13 +248,29 @@ int test_path_join(void)
     /* test join */
     path = path_join(2, "Hello", "World");
     expect = malloc_string("Hello/World");
+    printf("%s\n", path);
     mu_check(strcmp(expect, path) == 0);
     free(path);
     free(expect);
 
-    /* test join  with slash already */
+    /* test join with slash already */
     path = path_join(2, "Hello/", "World");
     expect = malloc_string("Hello/World");
+    printf("%s\n", path);
+    mu_check(strcmp(expect, path) == 0);
+    free(path);
+    free(expect);
+
+    path = path_join(2, "Hello", "/World");
+    expect = malloc_string("Hello/World");
+    printf("%s\n", path);
+    mu_check(strcmp(expect, path) == 0);
+    free(path);
+    free(expect);
+
+    path = path_join(2, "Hello/", "/World");
+    expect = malloc_string("Hello/World");
+    printf("%s\n", path);
     mu_check(strcmp(expect, path) == 0);
     free(path);
     free(expect);
@@ -266,6 +294,7 @@ void test_suite(void)
     mu_add_test(test_fsize);
     mu_add_test(test_fstring);
     mu_add_test(test_fexists);
+    mu_add_test(test_fext);
 
     mu_add_test(test_path_join);
 }
