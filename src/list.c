@@ -23,7 +23,7 @@ void list_destroy(struct list *list)
     node = list->first;
     while (node != NULL) {
         next_node = node->next;
-        free(node);
+        free_mem(node, free);
 
         node = next_node;
     }
@@ -219,8 +219,16 @@ void *list_remove(
     node = list->first;
     while (node != NULL) {
         if (cmp(node->value, value) == 0) {
+            /* last node in list */
+            if (list->length == 1) {
+                list->first = NULL;
+                list->last = NULL;
+                list->length--;
+
+                free(node);
+
             /* in the case of removing last node in list */
-            if (node == list->last) {
+            } else if (node == list->last) {
                 list->last = node->prev;
                 list->first->next = NULL;
                 list->length--;

@@ -302,7 +302,7 @@ char *fstring(const char *file_path)
 
     fp = fopen(file_path, "r");
     file_size = fsize(file_path);
-    str = calloc((size_t) file_size, 1);
+    str = calloc((size_t) file_size + 1, 1);
     fread(str, (size_t) file_size, 1, fp);
 
     return str;
@@ -315,4 +315,39 @@ int fexists(const char *file_path)
     } else {
         return 0;
     }
+}
+
+
+/* PATH UTILS */
+char *path_join(int len, ...)
+{
+    int i;
+    va_list args;
+    char cache[256];
+    char buf[1024];
+    size_t path_length;
+    size_t pointer;
+
+    /* setup */
+    pointer = 0;
+    path_length = 0;
+    bzero(buf, 1024);
+    va_start(args, len);
+
+    /* join */
+    for (i = 0; i < len; i++) {
+        bzero(cache, 256);
+        strcpy(cache, va_arg(args, char *));
+
+        /* add necessary slash */
+        if (strlen(buf) != 0 && buf[strlen(buf) - 1] != '/') {
+            sprintf(buf + pointer, "/%s", cache);
+        } else {
+            sprintf(buf + pointer, "%s", cache);
+        }
+
+        pointer += strlen(cache);
+    }
+
+    return malloc_string(buf);
 }

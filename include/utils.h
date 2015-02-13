@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -137,5 +138,8 @@ off_t fsize(const char *file_path);
 char *fstring(const char *file_path);
 int fexists(const char *file_path);
 
+
+/* PATH UTILS */
+char *path_join(int len, ...);
 
 #endif

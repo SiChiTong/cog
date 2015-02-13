@@ -7,6 +7,7 @@
 - String
 - Random
 - Comparator
+- File
 
 
 
@@ -145,13 +146,15 @@ and spaces `' '`. Then returns a trimmed version.
     int dblcmp_desc(const void *v1, const void *v2);
 
 Compare between `v1` and `v2` of type integer, float or double with `intcmp*`,
-`fltcmp*`, `dblcmp*` in ascending order or decending order. By default
+`fltcmp*`, `dblcmp*` in ascending order or descending order. By default
 `intcmp()`, `fltcmp()` and `dblcmp()` compares in descending order.
 
-**Note**: Comparing floating and doubles points is hard, the implementation used
-is by defining the error margin `FLOAT_EPSILON`, by default it is set to
-`0.00001`, however depending on your usecase you may want to adjust the
-acceptable error margin. You can do this by defining your own `FLOAT_EPSILON`.
+**Note**: Comparing floating and doubles points is hard, the implementation
+used is by defining the error margin `FLOAT_EPSILON`, by default it is set to
+`0.00001`, however depending on your use case you may want to adjust the
+acceptable error margin. You can do this by defining your own `FLOAT_EPSILON`
+when compiling cog, you must do that during the compilation of cog else it will
+not take effect when you link it with your code.
 
 In descending order the function will return:
 
@@ -159,16 +162,38 @@ In descending order the function will return:
 - `-1` if `v2` is larger than `v1`
 - `0` if `v1` equals `v2`
 
-The reverse is true for assending order.
+The reverse is true for ascending order.
 
 
 ---
 
     int cmp_values(int value_type, void *v1, void *v2);
 
-`cmp_values()` provides a wrapper to conviently compare `v1` and `v2` of `value_type`:
+`cmp_values()` provides a wrapper to conveniently compare `v1` and `v2` of
+`value_type`:
 
 - `INTEGER`
 - `FLOAT`
 - `DOUBLE`
 - `STRING`
+
+
+### File
+
+    off_t fsize(const char *file_path)
+
+Obtain the file size residing in `file_path`, returns the file size in type
+`off_t` or `-1` on failure.
+
+---
+
+    char *fstring(const char *file_path)
+
+Opens and reads the file residing in `file_path` as a string.
+
+---
+
+    int fexists(const char *file_path)
+
+Determines whether a file at `file_path` exists, returns `1` and `0` for `true`
+or `false`.

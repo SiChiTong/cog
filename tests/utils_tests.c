@@ -14,6 +14,10 @@ int test_trim_char(void);
 int test_trim(void);
 int test_copy_value(void);
 int test_randi(void);
+int test_fsize(void);
+int test_fstring(void);
+int test_fexists(void);
+int test_path_join(void);
 void test_suite(void);
 
 int test_intcmp()
@@ -204,6 +208,49 @@ int test_randi(void)
     return 0;
 }
 
+int test_fsize(void)
+{
+    /* off_t f_sz; */
+
+
+    return 0;
+}
+
+int test_fstring(void)
+{
+
+    return 0;
+}
+
+int test_fexists(void)
+{
+
+    return 0;
+}
+
+int test_path_join(void)
+{
+    char *path;
+    char *expect;
+
+    /* test join */
+    path = path_join(2, "Hello", "World");
+    expect = malloc_string("Hello/World");
+    mu_check(strcmp(expect, path) == 0);
+    free(path);
+    free(expect);
+
+    /* test join  with slash already */
+    path = path_join(2, "Hello/", "World");
+    expect = malloc_string("Hello/World");
+    mu_check(strcmp(expect, path) == 0);
+    free(path);
+    free(expect);
+
+    return 0;
+}
+
+
 void test_suite(void)
 {
     srand((unsigned int) time(NULL));
@@ -215,6 +262,12 @@ void test_suite(void)
     mu_add_test(test_copy_value);
 
     mu_add_test(test_randi);
+
+    mu_add_test(test_fsize);
+    mu_add_test(test_fstring);
+    mu_add_test(test_fexists);
+
+    mu_add_test(test_path_join);
 }
 
 mu_run_tests(test_suite)

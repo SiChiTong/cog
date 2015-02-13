@@ -4,8 +4,8 @@ BIN_DIR = $(PWD)/bin
 LIB_DIR = $(PWD)/lib
 
 # INCLUDE AND LIBRARY PATHS
-INCLUDES = -I/usr/include -I/usr/local/include -I$(PWD)/include
-LIBS = -L/usr/lib -L/usr/local/lib -L$(LIB_DIR) -lcog
+INCLUDES = -I$(PWD)/include -I/usr/include -I/usr/local/include
+LIBS = -L$(LIB_DIR) -lcog -L/usr/lib -L/usr/local/lib
 
 # C COMPILER
 CC = clang
