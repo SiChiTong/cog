@@ -1,4 +1,4 @@
-# cog.h
+# cog/utils.h
 
 **Contents**:
 - Debug / log
@@ -197,3 +197,10 @@ Opens and reads the file residing in `file_path` as a string.
 
 Determines whether a file at `file_path` exists, returns `1` and `0` for `true`
 or `false`.
+
+
+### Path
+
+    char *path_join(int len, ...);
+
+Join paths together, it operates similar to Python's `os.path.join()`.
