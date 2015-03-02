@@ -11,6 +11,30 @@ Features:
 - Stack
 - Hashmap
 
+**Utility**:
+- General Copy function
+- Malloc Integer
+- Malloc Float
+- Malloc Double
+- Malloc String
+- General free but with if NULL check
+- Free 1D array
+- Free 2D array
+
+**String**:
+- Trim 
+
+**Random**:
+- Random integer
+- Random float
+- Sample a 2D array
+
+**Comparators**:
+- Integer comparator
+- Float comparator
+- General comparator
+
+
 ## Installation
 
     # obtain cog
