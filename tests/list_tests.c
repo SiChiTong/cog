@@ -16,6 +16,7 @@ int test_list_push_pop(void);
 int test_list_shift(void);
 int test_list_unshift(void);
 int test_list_remove(void);
+int test_list_remove_destroy(void);
 void test_suite(void);
 
 
@@ -202,6 +203,47 @@ int test_list_remove(void)
     return 0;
 }
 
+int test_list_remove_destroy(void)
+{
+    char *t1;
+    char *t2;
+    char *t3;
+    int result;
+
+    setup();
+
+    t1 = malloc_string("test1 data");
+    t2 = malloc_string("test2 data");
+    t3 = malloc_string("test3 data");
+
+    /* push elements */
+    list_push(list, t1);
+    list_push(list, t2);
+    list_push(list, t3);
+
+    /* remove 2nd value */
+    result = list_remove_destroy(list, t2, strcmp_wrapper, free);
+
+    /* assert */
+    mu_check(result == 0);
+    mu_check(list->length == 2);
+    mu_check(strcmp(list->first->next->value, t3) == 0);
+    mu_check(strcmp(list->first->value, t1) == 0);
+
+    /* remove 2nd value */
+    result = list_remove_destroy(list, t3, strcmp_wrapper, free);
+
+    /* assert */
+    mu_check(result == 0);
+    mu_check(list->length == 1);
+    mu_check(list->first->next == NULL);
+    mu_check(strcmp(list->first->value, t1) == 0);
+
+    teardown();
+
+    return 0;
+}
+
 
 void test_suite(void)
 {
@@ -210,6 +252,7 @@ void test_suite(void)
     mu_add_test(test_list_shift);
     mu_add_test(test_list_unshift);
     mu_add_test(test_list_remove);
+    mu_add_test(test_list_remove_destroy);
 }
 
 mu_run_tests(test_suite)

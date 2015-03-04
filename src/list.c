@@ -72,7 +72,7 @@ void list_push(struct list *list, void *value)
     check(list, LIST_ENULL);
 
     /* initialize node */
-    node = calloc( 1, sizeof(struct list_node));
+    node = calloc(1, sizeof(struct list_node));
     check_mem(node);
     node->value = value;
 
@@ -219,21 +219,27 @@ void *list_remove(
     node = list->first;
     while (node != NULL) {
         if (cmp(node->value, value) == 0) {
-            /* last node in list */
-            if (list->length == 1) {
+            value = node->value;
+
+            if (node == list->first) {
+                /* first node in list */
+                list->first = node->next;
+                node->next->prev = NULL;
+                list->length--;
+                free(node);
+
+            } else if (list->length == 1) {
+                /* last node in list */
                 list->first = NULL;
                 list->last = NULL;
                 list->length--;
-
                 free(node);
 
-            /* in the case of removing last node in list */
             } else if (node == list->last) {
+                /* in the case of removing last node in list */
                 list->last = node->prev;
-                list->first->next = NULL;
-                list->length--;
-
                 node->prev->next = NULL;
+                list->length--;
                 free(node);
 
             /* remove others */
@@ -251,4 +257,23 @@ void *list_remove(
     }
 
     return NULL;
+}
+
+int list_remove_destroy(
+    struct list *list,
+    void *value,
+    int (*cmp)(const void *, const void *),
+    void (*free_func)(void *)
+)
+{
+    void *result;
+
+    result = list_remove(list, value, cmp);
+    silent_check(result);
+    free_func(result);
+
+    return 0;
+error:
+    return -1;
+
 }

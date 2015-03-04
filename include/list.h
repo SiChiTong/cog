@@ -37,5 +37,11 @@ void *list_remove(
     void *target,
     int (*cmp)(const void *, const void *)
 );
+int list_remove_destroy(
+    struct list *list,
+    void *value,
+    int (*cmp)(const void *, const void *),
+    void (*free_func)(void *)
+);
 
 #endif
