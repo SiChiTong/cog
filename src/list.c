@@ -45,7 +45,6 @@ void list_clear(struct list *list)
     }
 }
 
-
 void list_clear_destroy(struct list *list)
 {
     struct list_node *node;
@@ -62,7 +61,6 @@ void list_clear_destroy(struct list *list)
 
     free(list);
 }
-
 
 void list_push(struct list *list, void *value)
 {
@@ -216,39 +214,38 @@ void *list_remove(
 {
     struct list_node *node;
 
+    /* iterate list */
     node = list->first;
     while (node != NULL) {
+
+        /* compare target with node value */
         if (cmp(node->value, value) == 0) {
             value = node->value;
 
-            if (node == list->first) {
-                /* first node in list */
-                list->first = node->next;
-                node->next->prev = NULL;
-                list->length--;
-                free(node);
-
-            } else if (list->length == 1) {
+            if (list->length == 1) {
                 /* last node in list */
                 list->first = NULL;
                 list->last = NULL;
-                list->length--;
-                free(node);
+
+            } else if (node == list->first) {
+                /* first node in list */
+                list->first = node->next;
+                node->next->prev = NULL;
+
 
             } else if (node == list->last) {
                 /* in the case of removing last node in list */
                 list->last = node->prev;
                 node->prev->next = NULL;
-                list->length--;
-                free(node);
 
-            /* remove others */
             } else {
+                /* remove others */
                 node->prev->next = node->next;
-                free(node);
-                list->length--;
+                node->next->prev = node->prev;
 
             }
+            list->length--;
+            free(node);
 
             return value;
         }
