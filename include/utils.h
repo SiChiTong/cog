@@ -143,4 +143,9 @@ char *fext(const char *file_path);
 /* PATH UTILS */
 char *path_join(int len, ...);
 
+
+/* MISC */
+#define UNUSED(X) (void)(X)
+
+
 #endif
