@@ -225,6 +225,16 @@ int test_fstring(void)
 
 int test_fexists(void)
 {
+    int res;
+
+    res = fexists("README.md");
+    mu_check(res == 1);
+
+    res = fexists("./README.md");
+    mu_check(res == 1);
+
+    res = fexists("./README.m");
+    mu_check(res == 1);
 
     return 0;
 }
