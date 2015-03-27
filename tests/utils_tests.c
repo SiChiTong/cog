@@ -2,6 +2,10 @@
 #include <string.h>
 #include <time.h>
 
+#ifndef MU_PRINT
+  #define MU_PRINT 1
+#endif
+
 #include "munit.h"
 #include "utils.h"
 
@@ -204,21 +208,30 @@ int test_randi(void)
         }
     }
 
-    printf("%d, %d, %d\n", counter_1, counter_2, counter_3);
+    mu_print("%d, %d, %d\n", counter_1, counter_2, counter_3);
 
     return 0;
 }
 
 int test_fsize(void)
 {
-    /* off_t f_sz; */
+    off_t file_size;
 
+    file_size = fsize("./tests/data/test_data.dat");
+    mu_print("file_size: %d\n", (int) file_size);
+    mu_check((int) file_size > 0);
 
     return 0;
 }
 
 int test_fstring(void)
 {
+    char *string;
+
+    string = fstring("./tests/data/test_data.dat");
+    mu_print("file string: %s\n", string);
+    mu_check(string != NULL);
+    free(string);
 
     return 0;
 }
@@ -234,7 +247,7 @@ int test_fexists(void)
     mu_check(res == 1);
 
     res = fexists("./README.m");
-    mu_check(res == 1);
+    mu_check(res == 0);
 
     return 0;
 }
@@ -258,7 +271,7 @@ int test_path_join(void)
     /* test join */
     path = path_join(2, "Hello", "World");
     expect = malloc_string("Hello/World");
-    printf("%s\n", path);
+    mu_print("%s\n", path);
     mu_check(strcmp(expect, path) == 0);
     free(path);
     free(expect);
@@ -266,21 +279,21 @@ int test_path_join(void)
     /* test join with slash already */
     path = path_join(2, "Hello/", "World");
     expect = malloc_string("Hello/World");
-    printf("%s\n", path);
+    mu_print("%s\n", path);
     mu_check(strcmp(expect, path) == 0);
     free(path);
     free(expect);
 
     path = path_join(2, "Hello", "/World");
     expect = malloc_string("Hello/World");
-    printf("%s\n", path);
+    mu_print("%s\n", path);
     mu_check(strcmp(expect, path) == 0);
     free(path);
     free(expect);
 
     path = path_join(2, "Hello/", "/World");
     expect = malloc_string("Hello/World");
-    printf("%s\n", path);
+    mu_print("%s\n", path);
     mu_check(strcmp(expect, path) == 0);
     free(path);
     free(expect);

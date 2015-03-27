@@ -300,6 +300,10 @@ char *fstring(const char *file_path)
     char *str;
     off_t file_size;
 
+    /* pre-check */
+    check(file_path, "file path is NULL!");
+    check(fexists(file_path), "file path %s does not exists!", file_path);
+
     /* setup */
     fp = fopen(file_path, "r");
     file_size = fsize(file_path);
@@ -312,6 +316,8 @@ char *fstring(const char *file_path)
     fclose(fp);
 
     return str;
+error:
+    return NULL;
 }
 
 int fexists(const char *file_path)
