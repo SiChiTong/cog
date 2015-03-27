@@ -300,10 +300,16 @@ char *fstring(const char *file_path)
     char *str;
     off_t file_size;
 
+    /* setup */
     fp = fopen(file_path, "r");
     file_size = fsize(file_path);
+
+    /* copy file contents into variable */
     str = calloc((size_t) file_size + 1, 1);
     fread(str, (size_t) file_size, 1, fp);
+
+    /* clean up */
+    fclose(fp);
 
     return str;
 }
