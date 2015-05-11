@@ -25,7 +25,7 @@ confirm_install()
     fi
 }
 
-install()
+download_and_make()
 {
     # download cog
     git clone $REPO_URL
@@ -33,16 +33,20 @@ install()
     # make
     cd $REPO_NAME
     make
+}
 
-    # install
+run()
+{
     if [ $# -eq 0 ]; then
+        download_and_make
         confirm_install
     elif [ "$@" == "--yes" ]; then
-        sudo make install
+        download_and_make
+        make install
     else
         echo "Invalid argument to install.sh!"
     fi
 }
 
 # RUN
-install $1
+run $1
