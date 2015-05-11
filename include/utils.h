@@ -69,7 +69,7 @@ double *malloc_double(double d);
 char *malloc_string(const char *s);
 #define free_mem(TARGET, FREE_FUNC) \
     if (TARGET) { \
-        if (FREE_FUNC) { \
+        if (FREE_FUNC != NULL) { \
             FREE_FUNC((void *) TARGET); \
         } else { \
             log_err("free function not set!"); \
@@ -103,6 +103,8 @@ char *malloc_string(const char *s);
 /* STRING */
 int trim_char(const char c);
 char *trim(const char *s);
+char **split_kv(const char *s, const char token);
+char **split(const char *s, const char *token);
 
 
 /* RANDOM */
@@ -136,6 +138,7 @@ int cmp_values(int value_type, void *v1, void *v2);
 /* FILE UTILS */
 off_t fsize(const char *file_path);
 char *fstring(const char *file_path);
+char **flines(const char *file_path);
 int fexists(const char *file_path);
 char *fext(const char *file_path);
 

@@ -101,6 +101,87 @@ error:
     return NULL;
 }
 
+char **split_kv(const char *s, const char token)
+{
+    char *c;
+    size_t index;
+    size_t length;
+    char **kv;
+    char buf[9046];
+
+    /* pre-check */
+    kv = NULL;
+    silent_check(s != NULL);
+
+    /* setup */
+    length = strlen(s);
+    kv = malloc(sizeof(char *) * (size_t) 2);
+
+    /* find index of first token */
+    c = strchr(s, token);
+    silent_check(c != NULL);
+    index = (size_t) (c - s);
+
+    /* copy key */
+    bzero(buf, 9046);
+    snprintf(buf, index + 1, "%s", s);
+    kv[0] = trim(buf);
+
+    /* copy value */
+    bzero(buf, 9046);
+    snprintf(buf, length - index, "%s", s + index);
+    kv[1] = trim(buf);
+
+    return kv;
+error:
+    free_mem(kv, free);
+    return NULL;
+}
+
+char **split(const char *s, const char *token)
+{
+    char *el;
+    char **elements;
+    char buf[9046];
+    size_t index;
+    size_t num_of_elements;
+
+    /* pre-check */
+    elements = NULL;
+    silent_check(s != NULL);
+
+    /* calculate number of elements */
+    bzero(buf, 9046);
+    strcpy(buf, s);
+
+    el = strtok(buf, token);
+    num_of_elements = 0;
+    while (el != NULL) {
+        num_of_elements++;
+        el = strtok (NULL, token);
+    }
+
+    /* split string */
+    silent_check(num_of_elements != 0);
+
+    elements = malloc(sizeof(char *) * num_of_elements);
+    bzero(buf, 9046);
+    strcpy(buf, s);
+
+    index = 0;
+    el = strtok(buf, token);
+    while (el != NULL) {
+        elements[index] = trim(el);
+        index++;
+        el = strtok (NULL, token);
+    }
+
+    return elements;
+error:
+    free_mem(elements, free);
+    return NULL;
+}
+
 
 /* RANDOM */
 int randi(int min, int max)
@@ -316,6 +397,48 @@ char *fstring(const char *file_path)
     fclose(fp);
 
     return str;
+error:
+    return NULL;
+}
+
+char **flines(const char *file_path)
+{
+    FILE *fp;
+    int line_index;
+    char buf[4096];
+    char *line;
+    char **lines;
+
+    /* pre-check */
+    check(access(file_path, F_OK) != -1, "file %s does not exist!", file_path);
+
+    /* setup */
+    line_index = 0;
+    fp = fopen(file_path, "r");
+
+    /* calculate number of lines */
+    while (fgets(buf, sizeof(buf), fp)) {
+        line_index++;
+    }
+
+    /* record lines length */
+    lines = malloc(sizeof(char *) * ((size_t) line_index + 1));
+    lines[0] = malloc(sizeof(char) * 4096);
+    sprintf(lines[0], "%d", line_index);
+
+    /* create lines array */
+    rewind(fp);
+    line_index = 1;
+    while (fgets(buf, sizeof(buf), fp)) {
+        line = trim(buf);
+        lines[line_index] = line;
+        line_index++;
+    }
+
+    /* clean up */
+    fclose(fp);
+
+    return lines;
 error:
     return NULL;
 }

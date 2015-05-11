@@ -86,7 +86,8 @@ static int failed = 0;
     #define mu_print(message, ...)
   #endif
 #else
-    #define mu_print(message, ...)
+    #define mu_print(message, ...) \
+        printf(message, ##__VA_ARGS__)
 #endif
 
 #define mu_report() \

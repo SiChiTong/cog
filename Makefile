@@ -28,11 +28,12 @@ clean: rmdirs
 	@echo "done! :)"
 
 install:
-	@echo "installing cog"
+	@echo "installing cog ..."
 	@cp .$(LIB_DIR)/libcog.a /usr/local/lib/
 	@mkdir -p /usr/local/include/cog
 	@cp include/* /usr/local/include/cog/
 	@mv /usr/local/include/cog/cog.h /usr/local/include/cog.h
+	@echo "cog installed!"
 
 uninstall:
 	@echo "uninstalling cog"
