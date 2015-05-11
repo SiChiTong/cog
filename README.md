@@ -36,10 +36,19 @@ Features:
 
 
 ## Installation
+Enter the following command in the terminal:
 
-    # obtain cog
+
+    curl -L http://git.io/vUWo3 > install.sh && bash install.sh
+
+
+Or alternatively
+
+
     git clone https://github.com/chutsu/cog.git
-    cd cog; make
+    cd cog
+    make
+    make install
 
 
 ## LICENCE
