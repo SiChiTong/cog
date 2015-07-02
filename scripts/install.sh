@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 REPO_NAME="cog"
 REPO_URL="https://github.com/chutsu/cog.git"
@@ -38,11 +38,13 @@ download_and_make()
 run()
 {
     if [ $# -eq 0 ]; then
-        download_and_make
-        confirm_install
+        # download_and_make
+        # confirm_install
+        echo "confirm"
     elif [ "$@" == "--yes" ]; then
-        download_and_make
-        make install
+        # download_and_make
+        # make install
+        echo "yes"
     else
         echo "Invalid argument to install.sh!"
     fi

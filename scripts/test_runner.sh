@@ -5,9 +5,9 @@ LOG_TESTS=0
 LOG_PATH=$TESTS_DIR/log
 TMP_OUTPUT=/tmp/output.tmp
 
-GREEN="\e\033[32m"
-RED="\e\033[31m"
-ENDTC="\e\033[0m"
+GREEN="\033[32m"
+RED="\033[31m"
+ENDTC="\033[0m"
 
 
 strip_term_colors() {
@@ -19,22 +19,25 @@ strip_term_colors() {
 }
 
 print_passed() {
-    echo -e "${GREEN}PASSED!${ENDTC}"
+    echo  "${GREEN}PASSED!${ENDTC}"
 }
 
 print_failed() {
-    echo -e "${RED}FAILED!${ENDTC}"
+    echo "${RED}FAILED!${ENDTC}"
     echo "--------------------------------------------------"
     cat $TMP_OUTPUT
     echo "--------------------------------------------------"
 }
 
 check_mem_leaks() {
-    if [[ $COMMAND == *"valgrind"* ]]
+    VALGRIND_MODE=$(echo $COMMAND | grep "valgrind" | echo $?)
+
+    # if [[ $COMMAND == *"valgrind"* ]]
+    if [ "$VALGRIND_MODE" = "0" ]
     then
         RES=$(cat $TMP_OUTPUT | grep "no leaks are possible")
 
-        if [ "$RES" == "" ]
+        if [ "$RES" = "" ]
         then
             FAILED=1
         fi
