@@ -8,7 +8,10 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
+#include <termios.h>
 #include <sys/stat.h>
+
+
 
 
 /* DEBUG / LOG */
@@ -149,6 +152,10 @@ char *path_join(int len, ...);
 
 /* MISC */
 #define UNUSED(X) (void)(X)
+
+/* I/O */
+char getch(void);
+char getche(void);
 
 
 #endif
