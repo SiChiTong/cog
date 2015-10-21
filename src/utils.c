@@ -182,6 +182,20 @@ error:
     return NULL;
 }
 
+/* char *strex(const char *s, const char *open, const char *close) */
+/* { */
+/*     char *p1; */
+/*     char *p2; */
+/*     size_t len; */
+/*     char *res; */
+/*  */
+/*     p1 = strstr(s, open); */
+/*     p2 = strstr(s, close); */
+/*     len = (size_t) p2 - (size_t) p1; */
+/*     res = malloc(sizeof(char) * (len + 1)); */
+/*     strncpy(res, p1, len); */
+/* } */
+
 
 /* RANDOM */
 int randi(int min, int max)

@@ -108,6 +108,7 @@ int trim_char(const char c);
 char *trim(const char *s);
 char **split_kv(const char *s, const char token);
 char **split(const char *s, const char *token);
+char *strex(const char *s, const char *open, const char *close);
 
 
 /* RANDOM */

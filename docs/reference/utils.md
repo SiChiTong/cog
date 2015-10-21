@@ -135,18 +135,12 @@ and spaces `' '`. Then returns a trimmed version.
 
 ## Comparator
 
-    int intcmp(const void *v1, const void *v2);
-    int intcmp_asc(const void *v1, const void *v2);
-    int intcmp_desc(const void *v1, const void *v2);
-    int fltcmp(const void *v1, const void *v2);
-    int fltcmp_asc(const void *v1, const void *v2);
-    int fltcmp_desc(const void *v1, const void *v2);
-    int dblcmp(const void *v1, const void *v2);
-    int dblcmp_asc(const void *v1, const void *v2);
-    int dblcmp_desc(const void *v1, const void *v2);
+    int intcmp(int v1, int v2);
+    int fltcmp(float v1, float v2);
+    int dblcmp(double v1, double v2);
 
-Compare between `v1` and `v2` of type integer, float or double with `intcmp*`,
-`fltcmp*`, `dblcmp*` in ascending order or descending order. By default
+Compare between `v1` and `v2` of type integer, float or double with `intcmp`,
+`fltcmp`, `dblcmp` in ascending order or descending order. By default
 `intcmp()`, `fltcmp()` and `dblcmp()` compares in descending order.
 
 **Note**: Comparing floating and doubles points is hard, the implementation
@@ -178,7 +172,7 @@ The reverse is true for ascending order.
 - `STRING`
 
 
-### File
+## File
 
     off_t fsize(const char *file_path)
 
@@ -199,7 +193,7 @@ Determines whether a file at `file_path` exists, returns `1` and `0` for `true`
 or `false`.
 
 
-### Path
+## Path
 
     char *path_join(int len, ...);
 

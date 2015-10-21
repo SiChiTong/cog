@@ -17,6 +17,7 @@ int test_epsilon_float_cmp(void);
 int test_trim_char(void);
 int test_trim(void);
 int test_copy_value(void);
+int test_strex(void);
 int test_randi(void);
 int test_fsize(void);
 int test_fstring(void);
@@ -187,6 +188,18 @@ int test_copy_value(void)
     free(str_ptr);
     return 0;
 }
+
+/* int test_strex(void) */
+/* { */
+/*     char s[100]; */
+/*     char *retval; */
+/*  */
+/*     s = "abcd {efgh} ijkl"; */
+/*     retval = strex(s, '{', '}'); */
+/*     mu_check(strcmp(retval, "efgh"); */
+/*  */
+/*     return 0; */
+/* } */
 
 int test_randi(void)
 {
