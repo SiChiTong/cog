@@ -20,7 +20,7 @@ rmdirs:
 	@rm -rf obj
 	@rm -rf lib
 
-run_tests: scripts/unittest_runner.py
+run_tests: scripts/test_runner.sh
 	@./$<
 
 clean: rmdirs
