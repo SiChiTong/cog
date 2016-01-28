@@ -14,10 +14,16 @@ static inline int default_compare(void *a, void *b)
 
 static uint32_t default_hash(void *a)
 {
-    size_t len = strlen(a);
-    char *key = a;
-    uint32_t hash = 0;
-    uint32_t i = 0;
+    size_t len;
+    char *key;
+    uint32_t i;
+    uint32_t hash;
+
+    /* setup */
+    len = strlen(a);
+    key = a;
+    i = 0;
+    hash = 0;
 
     /* Simple Bob Jenkins's hash algorithm */
     for (hash = i = 0; i < len; i++) {
@@ -39,11 +45,14 @@ struct hashmap *hashmap_create(
 )
 {
     struct hashmap *map;
-    size_t list_sz = sizeof(struct darray *);
+    size_t list_sz;
 
+    /* setup */
+    list_sz = sizeof(struct darray *);
     map = calloc(1, sizeof(struct hashmap));
     check_mem(map);
 
+    /* create bucket */
     map->buckets = darray_create(list_sz, DEFAULT_NUMBER_OF_BUCKETS);
     map->buckets->end = map->buckets->max; // fake out expanding it
     check_mem(map->buckets);
@@ -61,7 +70,7 @@ error:
 
 static void free_bucket(struct darray **bucket)
 {
-    int i = 0;
+    int i;
 
     for (i = 0; i < (*bucket)->end; i++) {
         free(darray_get(*bucket, i));
@@ -72,7 +81,7 @@ static void free_bucket(struct darray **bucket)
 
 static void free_buckets(struct hashmap **map)
 {
-    int i = 0;
+    int i;
     struct darray *bucket;
 
     for (i = 0; i < ((*map)->buckets)->end; i++) {
@@ -104,9 +113,11 @@ static inline struct hashmap_node *hashmap_node_create(
 {
     struct hashmap_node *node;
 
+    /* setup */
     node = calloc(1, sizeof(struct hashmap_node));
     check_mem(node);
 
+    /* create hashmap node */
     node->key = key;
     node->data = data;
     node->hash = hash;
@@ -123,18 +134,20 @@ static inline struct darray *hashmap_find_bucket(
     uint32_t *hash_out
 )
 {
-    int bucket_n = 0;
+    int bucket_n;
     uint32_t hash;
     struct darray *bucket;
 
+    /* pre-check */
     hash = map->hash(key);
     bucket_n = hash % DEFAULT_NUMBER_OF_BUCKETS;
-
-    check(bucket_n >= 0, "Invalid bucket found: %d", bucket_n);
+    check(bucket_n >= 0, HASHMAP_EBUCKET, bucket_n);
     *hash_out = hash; /* store it for return so caller can use it */
 
+    /* find bucket */
     bucket = darray_get(map->buckets, bucket_n);
 
+    /* coundn't find bucket, create one instead */
     if (!bucket && create) {
         /* new bucket, set it up */
         bucket = darray_create(sizeof(void *), DEFAULT_NUMBER_OF_BUCKETS);
@@ -150,16 +163,17 @@ error:
 
 int hashmap_set(struct hashmap *map, void *key, void *data)
 {
-    uint32_t hash = 0;
+    uint32_t hash;
     struct darray *bucket;
     struct hashmap_node *node;
 
+    /* pre-check */
     bucket = hashmap_find_bucket(map, key, 1, &hash);
-    check(bucket, "Error can't create bucket.");
+    check(bucket, HASHMAP_ECBUCKET);
 
+    /* set hashmap  */
     node = hashmap_node_create(hash, key, data);
     check_mem(node);
-
     darray_push(bucket, node);
 
     return 0;
@@ -195,18 +209,17 @@ void *hashmap_get(struct hashmap *map, void *key)
     struct darray *bucket;
     struct hashmap_node *node;
 
+    /* find bucket */
     bucket = hashmap_find_bucket(map, key, 0, &hash);
-    if (!bucket) {
-        return NULL;
-    }
+    silent_check(bucket);
 
+    /* find hashmap node */
     i = hashmap_get_node(map, hash, bucket, key);
-    if (i == -1) {
-        return NULL;
-    }
+    silent_check(i != -1);
 
+    /* get value */
     node = darray_get(bucket, i);
-    check(node != NULL, "Failed to get node from bucket, it should exist!");
+    check(node != NULL, HASHMAP_EGET);
 
     return node->data;
 error:
@@ -218,12 +231,13 @@ int hashmap_traverse(
     int (*hashmap_traverse_cb)(struct hashmap_node *)
 )
 {
-    int i = 0;
-    int j = 0;
-    int rc = 0;
+    int i;
+    int j;
+    int rc;
     struct darray *bucket;
     struct hashmap_node *node;
 
+    rc = 0;
     for (i = 0; i < map->buckets->end; i++) {
         bucket = darray_get(map->buckets, i);
 
@@ -253,15 +267,13 @@ void *hashmap_delete(struct hashmap *map, void *key)
 
     /* find bucket containing hashmap node */
     bucket = hashmap_find_bucket(map, key, 0, &hash);
-    if (!bucket) {
-        return NULL;
-    }
+    silent_check(bucket);
 
     /* from bucket get hashmap node and free it */
     i = hashmap_get_node(map, hash, bucket, key);
-    if (i == -1) {
-        return NULL;
-    }
+    silent_check(i != -1);
+
+    /* get node */
     node = darray_get(bucket, i);
     data = node->data;
     free(node);
@@ -274,4 +286,6 @@ void *hashmap_delete(struct hashmap *map, void *key)
     }
 
     return data;
+error:
+    return NULL;
 }

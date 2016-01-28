@@ -4,8 +4,6 @@
 #include "sort.h"
 
 /* PROTOTYPES */
-void **setup(size_t len);
-void teardown(void **array, size_t len);
 int sorted(void **arr, size_t len, int (*cmp)(const void *, const void *));
 int test_selection_sort(void);
 int test_insertion_sort(void);
@@ -13,7 +11,12 @@ int test_partition(void);
 void test_suite(void);
 
 
-void **setup(size_t len)
+static int intcmp_wrapper(const void *val_1, const void *val_2)
+{
+    return intcmp(*(int *) val_1, *(int *) val_2);
+}
+
+static void **setup(size_t len)
 {
     size_t i;
     void **arr;
@@ -26,7 +29,7 @@ void **setup(size_t len)
     return arr;
 }
 
-void teardown(void **array, size_t len)
+static void teardown(void **array, size_t len)
 {
     size_t i;
 
@@ -58,8 +61,8 @@ int test_selection_sort(void)
     len = 10;
     arr = setup(len);
 
-    selection_sort(arr, len, intcmp);
-    mu_check(sorted(arr, len, intcmp) == 1);
+    selection_sort(arr, len, intcmp_wrapper);
+    mu_check(sorted(arr, len, intcmp_wrapper) == 1);
 
     teardown(arr, len);
 
@@ -74,8 +77,8 @@ int test_insertion_sort(void)
     len = 10;
     arr = setup(len);
 
-    insertion_sort(arr, len, intcmp);
-    mu_check(sorted(arr, len, intcmp) == 1);
+    insertion_sort(arr, len, intcmp_wrapper);
+    mu_check(sorted(arr, len, intcmp_wrapper) == 1);
 
     teardown(arr, len);
 
@@ -96,8 +99,8 @@ int test_insertion_sort(void)
 /*         printf("%d\n", *(int *) arr[i]); */
 /*     } */
 /*  */
-/*     partition(arr, 5, 0, len - 1, intcmp); */
-/*     #<{(| mu_check(sorted(arr, len, intcmp) == 1); |)}># */
+/*     partition(arr, 5, 0, len - 1, intcmp_wrapper); */
+/*     #<{(| mu_check(sorted(arr, len, intcmp_wrapper) == 1); |)}># */
 /*  */
 /*     printf("\nafter\n"); */
 /*     for (i = 0; i < len; i++) { */

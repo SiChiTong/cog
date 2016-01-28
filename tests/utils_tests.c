@@ -28,55 +28,45 @@ void test_suite(void);
 
 int test_intcmp()
 {
-    int val_1 = 1;
-    int val_2 = 1;
-    int *val_ptr_1 = &val_1;
-    int *val_ptr_2 = &val_2;
+    int val_1;
+    int val_2;
+
+    /* setup */
+    val_1 = 1;
+    val_2 = 1;
 
     /* ASCENDING TESTS */
     /* when val_1 and val_2 are equal */
-    int result = intcmp_asc(&val_1, &val_2);
+    int result = intcmp_asc(val_1, val_2);
     mu_assert(result == 0, "Result should be 0!");
 
     /* when val_2 is bigger than val_1 */
     val_2 = 10;
-    result = intcmp_asc(&val_1, &val_2);
+    result = intcmp_asc(val_1, val_2);
     mu_assert(result == -1, "Result should be -1!");
 
     /* when val_1 is bigger than val_2 */
     val_2 = -1;
-    result = intcmp_asc(&val_1, &val_2);
+    result = intcmp_asc(val_1, val_2);
     mu_assert(result == 1, "Result should be 1!");
-
-    /* when val_1 and val_2 are pointers */
-    result = intcmp_asc(val_ptr_1, val_ptr_2);
-    mu_assert(result == 1, "Result should be 1!");
-
 
     /* resetting values */
     val_1 = 1;
     val_2 = 1;
-    val_ptr_1 = &val_1;
-    val_ptr_2 = &val_2;
-
 
     /* DESCENDING TESTS */
     /* when val_1 and val_2 are equal */
-    result = intcmp_desc(&val_1, &val_2);
+    result = intcmp_desc(val_1, val_2);
     mu_assert(result == 0, "Result should be 0!");
 
     /* when val_2 is bigger than val_1 */
     val_2 = 10;
-    result = intcmp_desc(&val_1, &val_2);
+    result = intcmp_desc(val_1, val_2);
     mu_assert(result == 1, "Result should be 1!");
 
     /* when val_1 is bigger than val_2 */
     val_2 = -1;
-    result = intcmp_desc(&val_1, &val_2);
-    mu_assert(result == -1, "Result should be -1!");
-
-    /* when val_1 and val_2 are pointers */
-    result = intcmp_desc(val_ptr_1, val_ptr_2);
+    result = intcmp_desc(val_1, val_2);
     mu_assert(result == -1, "Result should be -1!");
 
     return 0;
@@ -84,24 +74,28 @@ int test_intcmp()
 
 int test_fltcmp()
 {
-    float val_1 = 1.0f;
-    float val_2 = 1.0f;
+    float val_1;
+    float val_2;
+
+    /* setup */
+    val_1 = 1.0f;
+    val_2 = 1.0f;
 
     /* ASCENDING TESTS */
     /* when val_1 and val_2 are equal */
-    int result = fltcmp_asc(&val_1, &val_2);
+    int result = fltcmp_asc(val_1, val_2);
     mu_assert(result == 0, "Result should be 0!");
 
     /* when val_2 is bigger than val_1 */
     val_1 = 0.001f;
     val_2 = 0.01f;
-    result = fltcmp_asc(&val_1, &val_2);
+    result = fltcmp_asc(val_1, val_2);
     mu_assert(result == -1, "Result should be -1!");
 
     /* when val_1 is bigger than val_2 */
     val_1 = 0.01f;
     val_2 = 0.001f;
-    result = fltcmp_asc(&val_1, &val_2);
+    result = fltcmp_asc(val_1, val_2);
     mu_assert(result == 1, "Result should be 1!");
 
 
@@ -111,19 +105,19 @@ int test_fltcmp()
 
 
     /* DESCENDING TESTS */
-    result = fltcmp_desc(&val_1, &val_2);
+    result = fltcmp_desc(val_1, val_2);
     mu_assert(result == 0, "Result should be 0!");
 
     /* when val_2 is bigger than val_1 */
     val_1 = 0.001f;
     val_2 = 0.01f;
-    result = fltcmp_desc(&val_1, &val_2);
+    result = fltcmp_desc(val_1, val_2);
     mu_assert(result == 1, "Result should be 1!");
 
     /* when val_1 is bigger than val_2 */
     val_1 = 0.01f;
     val_2 = 0.001f;
-    result = fltcmp_desc(&val_1, &val_2);
+    result = fltcmp_desc(val_1, val_2);
     mu_assert(result == -1, "Result should be -1!");
 
     return 0;
@@ -170,13 +164,13 @@ int test_copy_value(void)
     const char *str_value = "test";
 
     int_ptr = copy_value(INTEGER, &int_value);
-    mu_check(intcmp(int_ptr, &int_value) == 0);
+    mu_check(intcmp(*int_ptr, int_value) == 0);
 
     float_ptr = copy_value(FLOAT, &float_value);
-    mu_check(fltcmp(float_ptr, &float_value) == 0);
+    mu_check(fltcmp(*float_ptr, float_value) == 0);
 
     double_ptr = copy_value(DOUBLE, &doule_value);
-    mu_check(fltcmp(double_ptr, &doule_value) == 0);
+    mu_check(fltcmp(*double_ptr, doule_value) == 0);
 
     str_ptr = copy_value(STRING, (void *) str_value);
     mu_check(strcmp(str_ptr, str_value) == 0);

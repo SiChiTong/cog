@@ -4,8 +4,12 @@
 /* MEMORY */
 void *copy_value(int value_type, void *value)
 {
-    void *copy = NULL;
+    void *copy;
 
+    /* setup */
+    copy = NULL;
+
+    /* copy value */
     switch (value_type) {
     case INTEGER:
         copy = malloc(sizeof(int));
@@ -30,28 +34,32 @@ void *copy_value(int value_type, void *value)
 
 int *malloc_int(int i)
 {
-    int *int_ptr = malloc(sizeof(int));
+    int *int_ptr;
+    int_ptr = malloc(sizeof(int));
     *(int *) int_ptr = i;
     return int_ptr;
 }
 
 float *malloc_float(float f)
 {
-    float *float_ptr = malloc(sizeof(float));
+    float *float_ptr;
+    float_ptr = malloc(sizeof(float));
     *(float *) float_ptr = f;
     return float_ptr;
 }
 
 double *malloc_double(double d)
 {
-    double *double_ptr = malloc(sizeof(double));
+    double *double_ptr;
+    double_ptr = malloc(sizeof(double));
     *(double *) double_ptr = d;
     return double_ptr;
 }
 
 char *malloc_string(const char *s)
 {
-    char *str_ptr = malloc(sizeof(char) * strlen(s) + 1);
+    char *str_ptr;
+    str_ptr = malloc(sizeof(char) * strlen(s) + 1);
     strcpy(str_ptr, s);
     return str_ptr;
 }
@@ -256,106 +264,73 @@ void *sample(void **array, int array_length)
 
 
 /* COMPARATOR */
-int intcmp(const void *v1, const void *v2)
+int intcmp(int v1, int v2)
 {
-    /* null-check */
-    if (v1 == NULL || v2 == NULL) {
-        if (v1 == NULL) {
-            return -1;
-        } else if (v1 == NULL) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    if (*(int *) v1 > *(int *) v2) {
+    if (v1 > v2) {
         return 1;
-    } else if (*(int *) v1 < *(int *) v2) {
+    } else if (v1 < v2) {
         return -1;
     } else {
         return 0;
     }
+
+    return -2;
 }
 
-int intcmp_asc(const void *v1, const void *v2)
+int intcmp_asc(int v1, int v2)
 {
     return intcmp(v1, v2);
 }
 
-int intcmp_desc(const void *v1, const void *v2)
+int intcmp_desc(int v1, int v2)
 {
     return intcmp(v1, v2) * -1;
 }
 
-int fltcmp(const void *v1, const void *v2)
+int fltcmp(float v1, float v2)
 {
-    /* null-check */
-    if (v1 == NULL || v2 == NULL) {
-        if (v1 == NULL) {
-            return -1;
-        } else if (v1 == NULL) {
-            return 1;
-        } else {
-            return 0;
-        }
+    /* compare floats */
+    if (fabs(v1 - v2) <= FLOAT_EPSILON) {
+        return 0;
+    } else if (v1 > v2) {
+        return 1;
+    } else if (v1 < v2) {
+        return -1;
     }
 
-    /* compare floats */
-    if (fabs(*(float *) v1 - *(float *) v2) <= FLOAT_EPSILON) {
-        return 0;
-    } else if (*(float *) v1 > *(float *) v2) {
-        return 1;
-    } else if (*(float *) v1 < *(float *) v2) {
-        return -1;
-    } else {
-        printf("Error! Undefined runtime behaviour!\n");
-        return -1;
-    }
+    return -2;
 }
 
-int fltcmp_asc(const void *v1, const void *v2)
+int fltcmp_asc(float v1, float v2)
 {
     return fltcmp(v1, v2);
 }
 
-int fltcmp_desc(const void *v1, const void *v2)
+int fltcmp_desc(float v1, float v2)
 {
     return fltcmp(v1, v2) * -1;
 }
 
-int dblcmp(const void *v1, const void *v2)
+int dblcmp(double v1, double v2)
 {
-    /* null-check */
-    if (v1 == NULL || v2 == NULL) {
-        if (v1 == NULL) {
-            return -1;
-        } else if (v1 == NULL) {
-            return 1;
-        } else {
-            return 0;
-        }
+    /* compare doubles */
+    if (fabs(v1 - v2) <= FLOAT_EPSILON) {
+        return 0;
+    } else if (v1 > v2) {
+        return 1;
+    } else if (v1 < v2) {
+        return -1;
     }
 
-    /* compare doubles */
-    if (fabs(*(double *) v1 - *(double *) v2) <= FLOAT_EPSILON) {
-        return 0;
-    } else if (*(double *) v1 > *(double *) v2) {
-        return 1;
-    } else if (*(double *) v1 < *(double *) v2) {
-        return -1;
-    } else {
-        printf("Error! Undefined runtime behaviour!\n");
-        return -1;
-    }
+    return -2;
 }
 
-int dblcmp_asc(const void *v1, const void *v2)
+int dblcmp_asc(double v1, double v2)
 {
     return dblcmp(v1, v2);
 }
 
-int dblcmp_desc(const void *v1, const void *v2)
+int dblcmp_desc(double v1, double v2)
 {
     return dblcmp(v1, v2) * -1;
 }
@@ -364,11 +339,11 @@ int cmp_values(int value_type, void *v1, void *v2)
 {
     switch (value_type) {
     case INTEGER:
-        return intcmp(v1, v2);
+        return intcmp(*(int *) v1, *(int *) v2);
     case FLOAT:
-        return fltcmp(v1, v2);
+        return fltcmp(*(float *) v1, *(float *) v2);
     case DOUBLE:
-        return fltcmp(v1, v2);
+        return dblcmp(*(double *) v1, *(double *) v2);
     case STRING:
         return strcmp(v1, v2);
     default:
@@ -501,11 +476,9 @@ char *path_join(int len, ...)
     char buf[1024];
     size_t pointer;
     size_t buflen;
-    size_t path_length;
 
     /* setup */
     pointer = 0;
-    path_length = 0;
     bzero(buf, 1024);
     va_start(args, len);
 

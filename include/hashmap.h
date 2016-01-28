@@ -19,10 +19,18 @@ struct hashmap_node {
     uint32_t hash;
 };
 
+
 /* CONSTANTS */
 #ifndef DEFEAULT_NUMBER_OF_BUCKETS
   #define DEFAULT_NUMBER_OF_BUCKETS 100
 #endif
+
+
+/* ERROR MESSAGES */
+#define HASHMAP_EBUCKET "invalid bucket found: %d"
+#define HASHMAP_ECBUCKET "cannot create bucket!"
+#define HASHMAP_EGET "cannot find node from bucket, it should exist!"
+
 
 /* FUNCTIONS */
 struct hashmap *hashmap_create(

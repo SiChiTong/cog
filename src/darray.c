@@ -3,11 +3,14 @@
 
 struct darray *darray_create(size_t element_size, size_t initial_max)
 {
-    struct darray *array = NULL;
+    struct darray *array;
 
     /* pre-check */
     check(element_size > 0, DARRAY_EELSIZE);
     check(initial_max > 0, DARRAY_EINITMAX);
+
+    /* setup */
+    array = NULL;
 
     /* create darray */
     array = malloc(sizeof(struct darray));

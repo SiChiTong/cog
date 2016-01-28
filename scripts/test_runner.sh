@@ -1,16 +1,19 @@
 #!/bin/sh
-COMMAND='valgrind --error-exitcode=-1 --show-leak-kinds=all --leak-check=full'
+COMMAND='valgrind --error-exitcode=-1 --leak-check=full'
 TESTS_DIR='bin'
+TEST_FORMAT="*_tests"
 LOG_TESTS=0
 LOG_PATH=$TESTS_DIR/log
 TMP_OUTPUT=/tmp/output.tmp
+FAILED=0
 
 GREEN="\033[32m"
 RED="\033[31m"
 ENDTC="\033[0m"
 
 
-strip_term_colors() {
+strip_term_colors()
+{
     SED_ARGS="s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
     SED_FLAGS=-r
 
@@ -18,18 +21,21 @@ strip_term_colors() {
     mv $LOG_FILE.processed $LOG_FILE
 }
 
-print_passed() {
+print_passed()
+{
     echo  "${GREEN}PASSED!${ENDTC}"
 }
 
-print_failed() {
+print_failed()
+{
     echo "${RED}FAILED!${ENDTC}"
     echo "--------------------------------------------------"
     cat $TMP_OUTPUT
     echo "--------------------------------------------------"
 }
 
-check_mem_leaks() {
+check_mem_leaks()
+{
     VALGRIND_MODE=$(echo $COMMAND | grep "valgrind" | echo $?)
 
     # if [[ $COMMAND == *"valgrind"* ]]
@@ -44,11 +50,13 @@ check_mem_leaks() {
     fi
 }
 
-check_exit_status() {
+check_exit_status()
+{
     FAILED=$?
 }
 
-analyze_test_results() {
+analyze_test_results()
+{
     check_exit_status
     check_mem_leaks
 
@@ -60,13 +68,15 @@ analyze_test_results() {
     fi
 }
 
-log_test() {
+log_test()
+{
     mkdir -p $LOG_PATH
     LOG_FILE=$LOG_PATH/$(basename ${TEST}.log)
     cp $TMP_OUTPUT $LOG_FILE
 }
 
-run_test() {
+run_test()
+{
     # run test
     printf "TEST [$TEST] "
     $COMMAND $TEST > $TMP_OUTPUT 2>&1
@@ -80,11 +90,24 @@ run_test() {
     fi
 }
 
-main() {
-    TESTS=$(find ${TESTS_DIR} -type f ! -path "${LOG_PATH}/*" ! -iname "random_data_generator")
+main()
+{
+    # run tests
+    TESTS=$(find ${TESTS_DIR} -type f -name ${TEST_FORMAT})
     for TEST in $TESTS
     do
         run_test
     done
+
+    # exit properly
+    if [ $FAILED -eq 1 ]
+    then
+        exit 1;
+    else
+        exit 0;
+    fi
 }
+
+
+# RUN
 main

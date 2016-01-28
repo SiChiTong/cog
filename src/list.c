@@ -95,6 +95,7 @@ void *list_pop(struct list *list)
     struct list_node *last;
     struct list_node *before_last;
 
+    /* setup */
     value = NULL;
     before_last = NULL;
 

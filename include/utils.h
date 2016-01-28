@@ -72,11 +72,7 @@ double *malloc_double(double d);
 char *malloc_string(const char *s);
 #define free_mem(TARGET, FREE_FUNC) \
     if (TARGET) { \
-        if (FREE_FUNC != NULL) { \
-            FREE_FUNC((void *) TARGET); \
-        } else { \
-            log_err("free function not set!"); \
-        } \
+        FREE_FUNC((void *) TARGET); \
     }
 
 #define free_mem_arr(TARGET, NELEM, FREE_FUNC) \
@@ -124,17 +120,17 @@ void *sample(void **array, int array_length);
     #define FLOAT_EPSILON 0.00001
 #endif
 
-int intcmp(const void *v1, const void *v2);
-int intcmp_asc(const void *v1, const void *v2);
-int intcmp_desc(const void *v1, const void *v2);
+int intcmp(int v1, int v2);
+int intcmp_asc(int v1, int v2);
+int intcmp_desc(int v1, int v2);
 
-int fltcmp(const void *v1, const void *v2);
-int fltcmp_asc(const void *v1, const void *v2);
-int fltcmp_desc(const void *v1, const void *v2);
+int fltcmp(float v1, float v2);
+int fltcmp_asc(float v1, float v2);
+int fltcmp_desc(float v1, float v2);
 
-int dblcmp(const void *v1, const void *v2);
-int dblcmp_asc(const void *v1, const void *v2);
-int dblcmp_desc(const void *v1, const void *v2);
+int dblcmp(double v1, double v2);
+int dblcmp_asc(double v1, double v2);
+int dblcmp_desc(double v1, double v2);
 
 int cmp_values(int value_type, void *v1, void *v2);
 

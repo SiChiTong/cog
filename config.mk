@@ -8,13 +8,15 @@ INCLUDES = -I$(PWD)/include -I/usr/include -I/usr/local/include
 LIBS = -L$(LIB_DIR) -lcog -L/usr/lib -L/usr/local/lib
 
 # C COMPILER
-CC = clang
+CC = gcc
 STANDARD = -std=gnu99
 DEBUG_FLAGS = -g
-WARN_FLAGS = -Weverything \
-			 -Wno-padded \
-			 -Wno-gnu-zero-variadic-macro-arguments \
-			 -Wno-empty-translation-unit
+WARN_FLAGS = -Wall
+
+# WARN_FLAGS = -Weverything \
+# 			 -Wno-padded \
+# 			 -Wno-gnu-zero-variadic-macro-arguments \
+# 			 -Wno-empty-translation-unit
 CFLAGS = $(DEBUG_FLAGS) $(WARN_FLAGS) $(STANDARD) $(INCLUDES)
 
 # ARCHIVER
