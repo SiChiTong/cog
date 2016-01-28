@@ -1,4 +1,4 @@
-# cog
+# cog [![Build Status](https://travis-ci.org/chutsu/cog.png)][1]
 **cog** is a common library in C (similar to Boost for C++, but for C). It is
 heavily based on the code [Zed Shaw][2] produced in [Learn C the Hard Way][3].
 
@@ -72,5 +72,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+[1]: https://travis-ci.org/chutsu/cog
 [2]: http://en.wikipedia.org/wiki/Zed_Shaw
 [3]: http://c.learncodethehardway.org/book/
