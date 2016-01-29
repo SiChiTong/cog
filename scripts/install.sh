@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 REPO_NAME="cog"
-REPO_URL="https://github.com/chutsu/cog.git"
+REPO_URL="https://github.com/chutsu/$REPO_NAME"
+INSTALL_COMMAND="make; make run_tests; sudo make install"
 
 confirm()
 {
@@ -15,38 +16,36 @@ confirm()
 
 confirm_install()
 {
-    DO_INSTALL=$(confirm "Are you sure you want to install $REPO_NAME?")
-    if [ "$DO_INSTALL" == "1" ]; then
-        sudo make install
-    elif [ "$DO_INSTALL" == "-1" ]; then
-        echo "Error invalid option! Please enter y or n!"
+    DO_INSTALL=$(confirm "WARN: Are you sure you want to install $REPO_NAME?")
+    if [ "$DO_INSTALL" -eq "1" ]; then
+        install
+    elif [ "$DO_INSTALL" -eq "-1" ]; then
+        echo "Error: Invalid option! Please enter y or n!"
     else
         echo "Not installing $REPO_NAME ..."
     fi
 }
 
-download_and_make()
+install()
 {
-    # download cog
+    # download repo
     git clone $REPO_URL
 
     # make
     cd $REPO_NAME
-    make
+    eval $INSTALL_COMMAND
+    cd ..
+    rm -rf $REPO_NAME
 }
 
 run()
 {
     if [ $# -eq 0 ]; then
-        # download_and_make
-        # confirm_install
-        echo "confirm"
+        confirm_install
     elif [ "$@" == "--yes" ]; then
-        # download_and_make
-        # make install
-        echo "yes"
+        install
     else
-        echo "Invalid argument to install.sh!"
+        echo "invalid argument!"
     fi
 }
 

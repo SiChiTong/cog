@@ -1,4 +1,5 @@
 include config.mk
+PREFIX="/usr/local"
 
 default: all done
 
@@ -28,17 +29,17 @@ clean: rmdirs
 	@echo "done! :)"
 
 install:
-	@echo "installing cog to [/usr/local/lib]"
-	@cp .$(LIB_DIR)/libcog.a /usr/local/lib/
-	@mkdir -p /usr/local/include/cog
-	@cp include/* /usr/local/include/cog/
-	@mv /usr/local/include/cog/cog.h /usr/local/include/cog.h
+	@echo "installing cog to [$(PREFIX)/lib]"
+	@cp .$(LIB_DIR)/libcog.a $(PREFIX)/lib
+	@mkdir -p $(PREFIX)/include/cog
+	@cp include/* $(PREFIX)/include/cog/
+	@mv $(PREFIX)/include/cog/cog.h $(PREFIX)/include/cog.h
 	@echo "cog installed!"
 
 uninstall:
 	@echo "removing cog"
-	@rm /usr/local/lib/libcog.a
-	@rm -rf /usr/local/include/cog
+	@rm $(PREFIX)/lib/libcog.a
+	@rm -rf $(PREFIX)/include/cog
 
 done:
 	@echo "done! :)"
