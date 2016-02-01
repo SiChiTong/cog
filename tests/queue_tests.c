@@ -2,7 +2,7 @@
 #include <time.h>
 
 #include "munit.h"
-#include "utils.h"
+#include "util.h"
 
 #include "queue.h"
 

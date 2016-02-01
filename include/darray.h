@@ -2,7 +2,7 @@
 #define __DARRAY_H__
 
 #include <stdlib.h>
-#include "utils.h"
+#include "util.h"
 
 
 /* STRUCTURES */

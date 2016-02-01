@@ -1,5 +1,5 @@
-#ifndef __TEST_UTILS_H__
-#define __TEST_UTILS_H__
+#ifndef __TEST_UTIL_H__
+#define __TEST_UTIL_H__
 
 /* MACROS */
 #define INT_DATA 1

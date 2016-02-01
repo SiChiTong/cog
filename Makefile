@@ -33,7 +33,6 @@ install:
 	@cp .$(LIB_DIR)/libcog.a $(PREFIX)/lib
 	@mkdir -p $(PREFIX)/include/cog
 	@cp include/* $(PREFIX)/include/cog/
-	@mv $(PREFIX)/include/cog/cog.h $(PREFIX)/include/cog.h
 	@echo "cog installed!"
 
 uninstall:

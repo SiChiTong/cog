@@ -8,6 +8,6 @@
 #include "cog/search.h"
 #include "cog/sort.h"
 #include "cog/stack.h"
-#include "cog/utils.h"
+#include "cog/util.h"
 
 #endif

@@ -7,7 +7,7 @@
 #endif
 
 #include "munit.h"
-#include "utils.h"
+#include "util.h"
 
 
 /* TESTS */

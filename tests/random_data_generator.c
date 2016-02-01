@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 
-#include "utils.h"
+#include "util.h"
 
 #define DATAFILE_INTEGER 1
 #define DATAFILE_FLOAT 2

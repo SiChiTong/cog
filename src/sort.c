@@ -1,5 +1,5 @@
 #include "sort.h"
-#include "utils.h"
+#include "util.h"
 
 
 static inline void swap_ptr(void **arr, size_t index_1, size_t index_2)

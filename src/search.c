@@ -2,7 +2,7 @@
 #include <string.h>
 
 #include "search.h"
-#include "utils.h"
+#include "util.h"
 
 
 /* int sequential_search( */

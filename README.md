@@ -22,7 +22,7 @@ Features:
 - Free 2D array
 
 **String**:
-- Trim 
+- Trim
 
 **Random**:
 - Random integer
@@ -39,7 +39,7 @@ Features:
 Enter the following command in the terminal:
 
 
-    curl -L http://git.io/vUWo3 > install.sh && bash install.sh
+    curl -L http://git.io/vUWo3 > install.sh && sh install.sh
 
 
 Or alternatively
