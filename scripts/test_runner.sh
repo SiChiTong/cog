@@ -6,6 +6,7 @@ LOG_TESTS=0
 LOG_PATH=$TESTS_DIR/log
 TMP_OUTPUT=/tmp/output.tmp
 FAILED=0
+ALL_PASSED=1
 
 GREEN="\033[32m"
 RED="\033[31m"
@@ -38,14 +39,15 @@ check_mem_leaks()
 {
     VALGRIND_MODE=$(echo $COMMAND | grep "valgrind" | echo $?)
 
-    # if [[ $COMMAND == *"valgrind"* ]]
-    if [ "$VALGRIND_MODE" = "0" ]
+    if [ "$VALGRIND_MODE" -eq "0" ]
     then
+
         RES=$(cat $TMP_OUTPUT | grep "no leaks are possible")
 
         if [ "$RES" = "" ]
         then
             FAILED=1
+            ALL_PASSED=0
         fi
     fi
 }
@@ -60,7 +62,7 @@ analyze_test_results()
     check_exit_status
     check_mem_leaks
 
-    if [ $FAILED != 0 ]
+    if [ $FAILED -eq 1 ]
     then
         print_failed
     else
@@ -100,7 +102,7 @@ main()
     done
 
     # exit properly
-    if [ $FAILED -eq 1 ]
+    if [ $ALL_PASSED -eq 0 ]
     then
         exit 1;
     else
