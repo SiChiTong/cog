@@ -15,19 +15,18 @@ static char *t3 = "test3 data";
 /* PROTOTYPES */
 void setup();
 void teardown();
-int test_queue_create(void);
+int test_queue_new(void);
 int test_queue_enqueue_dequeue(void);
 int test_queue_destroy(void);
 void test_suite(void);
 
 
-int test_queue_create(void)
+int test_queue_new(void)
 {
-    q = queue_create(0);
+    q = queue_new();
 
     mu_check(q != NULL);
     mu_check(q->count == 0);
-    mu_check(q->limit == 0);
 
     return 0;
 }
@@ -82,7 +81,7 @@ int test_queue_destroy(void)
 
 void test_suite(void)
 {
-    mu_add_test(test_queue_create);
+    mu_add_test(test_queue_new);
     mu_add_test(test_queue_enqueue_dequeue);
     mu_add_test(test_queue_destroy);
 }

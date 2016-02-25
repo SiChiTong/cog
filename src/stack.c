@@ -3,12 +3,12 @@
 #include "stack.h"
 
 
-struct stack *stack_create(int limit)
+struct stack *stack_new(int limit)
 {
     struct stack *s;
 
     s = calloc(1, sizeof(struct stack));
-    s->stack = list_create();
+    s->stack = list_new();
     s->limit = limit;
     s->count = 0;
 

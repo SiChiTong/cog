@@ -7,36 +7,49 @@
 
 
 /* STRUCTURES */
-struct hashmap {
-    struct darray *buckets;
-    int (*compare)(void *, void *);
-    uint32_t (*hash)(void *);
+struct hashmap_node
+{
+    uint32_t hash;
+    void *key;
+    void *value;
 };
 
-struct hashmap_node {
-    void *key;
-    void *data;
-    uint32_t hash;
+struct hashmap
+{
+    struct darray *buckets;
+    int (*cmp)(void *, void *);
+    uint32_t (*hash)(void *);
+
+    int copy_kv;
+    void *(*k_copy)(void *);
+    void *(*v_copy)(void *);
+    void (*k_free)(void *);
+    void (*v_free)(void *);
 };
 
 
 /* CONSTANTS */
 #ifndef DEFEAULT_NUMBER_OF_BUCKETS
-  #define DEFAULT_NUMBER_OF_BUCKETS 100
+  #define DEFAULT_NUMBER_OF_BUCKETS 10000
 #endif
 
 
 /* ERROR MESSAGES */
+#define HASHMAP_ENULL "hashmap is NULL!"
+#define HASHMAP_EKNULL "key is NULL!"
+#define HASHMAP_EVNULL "value is NULL!"
+#define HASHMAP_EBNULL "bucket is NULL!"
+#define HASHMAP_EKCOPY "hashmap->k_copy is NULL!"
+#define HASHMAP_EVCOPY "hashmap->v_copy is NULL!"
 #define HASHMAP_EBUCKET "invalid bucket found: %d"
 #define HASHMAP_ECBUCKET "cannot create bucket!"
 #define HASHMAP_EGET "cannot find node from bucket, it should exist!"
+#define HASHMAP_ETCBNULL "hashmap_traverse_cb is NULL!"
 
 
 /* FUNCTIONS */
-struct hashmap *hashmap_create(
-    int (*hashmap_compare)(void *, void *),
-    uint32_t (*hashmap_hash)(void *)
-);
+struct hashmap *hashmap_new(void);
+void hashmap_clear_destroy(struct hashmap *map);
 void hashmap_destroy(struct hashmap *map);
 int hashmap_set(struct hashmap *map, void *key, void *data);
 void *hashmap_get(struct hashmap *map, void *key);

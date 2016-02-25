@@ -18,12 +18,14 @@ struct list {
 
 /* ERROR MESSAGES */
 #define LIST_ENULL "list is NULL!"
+#define LIST_ECNULL "cmp is NULL!"
+#define LIST_EVNULL "value is NULL!"
 #define LIST_EEMPTY "list is empty!"
 #define LIST_EINNODE "input node is NULL!"
 
 
 /* FUNCTIONS */
-struct list *list_create(void);
+struct list *list_new(void);
 void list_destroy(struct list *list);
 void list_clear(struct list *list);
 void list_clear_destroy(struct list *list);

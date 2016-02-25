@@ -3,7 +3,7 @@
 #include "list.h"
 
 
-struct list *list_create()
+struct list *list_new(void)
 {
     struct list *list;
 
@@ -20,6 +20,10 @@ void list_destroy(struct list *list)
     struct list_node *node;
     struct list_node *next_node;
 
+    /* pre-check */
+    silent_check(list);
+
+    /* destroy */
     node = list->first;
     while (node != NULL) {
         next_node = node->next;
@@ -29,6 +33,8 @@ void list_destroy(struct list *list)
     }
 
     free(list);
+error:
+    return;
 }
 
 void list_clear(struct list *list)
@@ -36,6 +42,10 @@ void list_clear(struct list *list)
     struct list_node *node;
     struct list_node *next_node;
 
+    /* pre-check */
+    silent_check(list);
+
+    /* clear */
     node = list->first;
     while (node != NULL) {
         next_node = node->next;
@@ -43,12 +53,18 @@ void list_clear(struct list *list)
 
         node = next_node;
     }
+
+error:
+    return;
 }
 
 void list_clear_destroy(struct list *list)
 {
     struct list_node *node;
     struct list_node *next_node;
+
+    /* pre-check */
+    silent_check(list);
 
     node = list->first;
     while (node != NULL) {
@@ -58,8 +74,10 @@ void list_clear_destroy(struct list *list)
 
         node = next_node;
     }
-
     free(list);
+
+error:
+    return;
 }
 
 void list_push(struct list *list, void *value)
@@ -68,6 +86,7 @@ void list_push(struct list *list, void *value)
 
     /* pre-check */
     check(list, LIST_ENULL);
+    check(value, LIST_EVNULL);
 
     /* initialize node */
     node = calloc(1, sizeof(struct list_node));
@@ -215,6 +234,11 @@ void *list_remove(
 {
     struct list_node *node;
 
+    /* pre-check */
+    check(list, LIST_ENULL);
+    check(value, LIST_EVNULL);
+    check(cmp, LIST_ECNULL);
+
     /* iterate list */
     node = list->first;
     while (node != NULL) {
@@ -254,6 +278,8 @@ void *list_remove(
         node = node->next;
     }
 
+    return NULL;
+error:
     return NULL;
 }
 

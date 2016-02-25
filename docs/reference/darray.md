@@ -35,7 +35,7 @@
 
 ## FUNCTIONS
 
-    struct darray *darray_create(size_t element_size, size_t initial_max);
+    struct darray *darray_new(size_t element_size, size_t initial_max);
     void darray_destroy(struct darray *array);
 
 Create and destroys a `struct darray` of `initial_max` elements, each of

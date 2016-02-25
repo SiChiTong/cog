@@ -12,7 +12,7 @@ struct stack
 };
 
 /* FUNCTIONS */
-struct stack *stack_create(int limit);
+struct stack *stack_new(int limit);
 void stack_destroy(struct stack *s);
 int stack_push(struct stack *s, void *data);
 void *stack_pop(struct stack *s);

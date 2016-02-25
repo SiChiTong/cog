@@ -13,15 +13,15 @@ static char *t2 = "test2 data";
 static char *t3 = "test3 data";
 
 /* PROTYTPES */
-int test_stack_create(void);
+int test_stack_new(void);
 int test_stack_push_pop(void);
 int test_stack_destroy(void);
 void test_suite(void);
 
 
-int test_stack_create(void)
+int test_stack_new(void)
 {
-    s = stack_create(0);
+    s = stack_new(0);
 
     mu_assert(s != NULL, "Failed to create stack!");
     mu_assert(s->count == 0, "Failed to initialize stack!");
@@ -83,7 +83,7 @@ int test_stack_destroy(void)
 
 void test_suite(void)
 {
-    mu_add_test(test_stack_create);
+    mu_add_test(test_stack_new);
     mu_add_test(test_stack_push_pop);
     mu_add_test(test_stack_destroy);
 }

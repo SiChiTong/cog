@@ -4,24 +4,23 @@
 #include <stdlib.h>
 
 #include "list.h"
+#include "util.h"
 
 
 /* STRUCTURES */
 struct queue
 {
-    int limit;
     int count;
     struct list *queue;
 };
 
-/* CONSTANTS */
-#ifndef DEFAULT_QUEUE_LIMIT
-  #define DEFAULT_QUEUE_LIMIT 100
-#endif
+/* ERROR MESSAGES */
+#define QUEUE_ENULL "queue is NULL!"
+#define QUEUE_EDNULL "data is NULL!"
 
 
 /* FUNCTIONS */
-struct queue *queue_create(int limit);
+struct queue *queue_new(void);
 void queue_destroy(struct queue *q);
 int queue_enqueue(struct queue *q, void *data);
 void *queue_dequeue(struct queue *q);

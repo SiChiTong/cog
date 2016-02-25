@@ -12,7 +12,7 @@ static int *new_val1 = NULL;
 static int *new_val2 = NULL;
 
 /* PROTOTYPES */
-int test_darray_create_and_destroy(void);
+int test_darray_new_and_destroy(void);
 int test_darray_push_pop(void);
 int test_darray_new_element(void);
 int test_darray_contains(void);
@@ -31,7 +31,7 @@ static int intcmp_wrapper(const void *val_1, const void *val_2)
 
 static void setup(void)
 {
-    array = darray_create(sizeof(int), 100);
+    array = darray_new(sizeof(int), 100);
 }
 
 static void teardown(void)
@@ -39,9 +39,9 @@ static void teardown(void)
     darray_clear_destroy(array);
 }
 
-int test_darray_create_and_destroy(void)
+int test_darray_new_and_destroy(void)
 {
-    array = darray_create(sizeof(int), 100);
+    array = darray_new(sizeof(int), 100);
 
     mu_check(array != NULL);
     mu_check(array->contents != NULL);
@@ -244,7 +244,7 @@ int test_darray_expand_and_contract(void)
 
 void test_suite(void)
 {
-    mu_add_test(test_darray_create_and_destroy);
+    mu_add_test(test_darray_new_and_destroy);
     mu_add_test(test_darray_push_pop);
     mu_add_test(test_darray_contains);
     mu_add_test(test_darray_copy);

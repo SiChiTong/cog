@@ -11,7 +11,7 @@ static struct list *list = NULL;
 void setup(void);
 void teardown(void);
 int strcmp_wrapper(const void *v1, const void *v2);
-int test_list_create_and_destroy(void);
+int test_list_new_and_destroy(void);
 int test_list_push_pop(void);
 int test_list_shift(void);
 int test_list_unshift(void);
@@ -22,7 +22,7 @@ void test_suite(void);
 
 void setup(void)
 {
-    list = list_create();
+    list = list_new();
 }
 
 void teardown(void)
@@ -35,10 +35,10 @@ int strcmp_wrapper(const void *v1, const void *v2)
     return strcmp(v1, v2);
 }
 
-int test_list_create_and_destroy(void)
+int test_list_new_and_destroy(void)
 {
     /* create */
-    list = list_create();
+    list = list_new();
     mu_check(list != NULL);
 
     /* clear destroy */
@@ -247,7 +247,7 @@ int test_list_remove_destroy(void)
 
 void test_suite(void)
 {
-    mu_add_test(test_list_create_and_destroy);
+    mu_add_test(test_list_new_and_destroy);
     mu_add_test(test_list_push_pop);
     mu_add_test(test_list_shift);
     mu_add_test(test_list_unshift);
