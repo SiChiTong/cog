@@ -1,7 +1,10 @@
 #ifndef __STACK_H__
 #define __STACK_H__
 
+#include <stdlib.h>
+
 #include "list.h"
+
 
 /* STRUCTURES */
 struct stack

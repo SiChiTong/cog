@@ -3,6 +3,9 @@
 
 #include <stdlib.h>
 
+#include "util.h"
+
+
 /* STRUCTURES */
 struct list_node {
     struct list_node *next;

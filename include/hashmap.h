@@ -2,7 +2,10 @@
 #define __HASHMAP_H__
 
 #include <stdint.h>
+#include <string.h>
 
+#include "util.h"
+#include "list.h"
 #include "darray.h"
 
 
