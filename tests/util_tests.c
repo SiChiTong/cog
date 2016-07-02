@@ -26,6 +26,7 @@ int test_fext(void);
 int test_path_join(void);
 void test_suite(void);
 
+
 int test_intcmp()
 {
     int val_1;
