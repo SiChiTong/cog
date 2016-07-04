@@ -1,96 +1,125 @@
-#include <stdlib.h>
-#include <time.h>
-
 #include "munit.h"
+#include "stack.h"
 #include "util.h"
 
-#include "stack.h"
 
-/* GLOBAL VARIABLES */
-static struct stack *s = NULL;
-static char *t1 = "test1 data";
-static char *t2 = "test2 data";
-static char *t3 = "test3 data";
-
-/* PROTYTPES */
-int test_stack_new(void);
-int test_stack_push_pop(void);
-int test_stack_destroy(void);
+/* TESTS */
+int test_stack_new_and_destroy(void);
+int test_stack_push(void);
+int test_stack_pop(void);
 void test_suite(void);
 
 
-int test_stack_new(void)
+int test_stack_new_and_destroy(void)
 {
-    s = stack_new(0);
+    struct stack *s = stack_new();
 
-    mu_assert(s != NULL, "Failed to create stack!");
-    mu_assert(s->count == 0, "Failed to initialize stack!");
-    mu_assert(s->limit == 0, "Failed to initialize stack!");
+    mu_check(s->size == 0);
+    mu_check(s->root == NULL);
+    mu_check(s->end == NULL);
 
+    stack_destroy(s, free);
     return 0;
 }
 
-int test_stack_push_pop(void)
+int test_stack_push(void)
 {
-    char *val;
+    struct stack *s = stack_new();
+    float *f1 = malloc_float(2.0);
+    float *f2 = malloc_float(4.0);
+    float *f3 = malloc_float(8.0);
 
-    /* push tests */
-    stack_push(s, t1);
-    mu_assert(stack_top(s) == t1, "Wrong top val!");
-    mu_assert(stack_bottom(s) == t1, "Wrong bottom val!");
-    mu_assert(s->count == 1, "Wrong count on push!");
+    /* push float 1 */
+    stack_push(s, f1);
+    mu_check(fltcmp(*(float *) s->end->value, *(float *) f1) == 0);
+    mu_check(s->size == 1);
+    mu_check(s->root->value == f1);
+    mu_check(s->end->prev == NULL);
 
-    stack_push(s, t2);
-    mu_assert(stack_top(s) == t2, "Wrong top val!");
-    mu_assert(stack_bottom(s) == t1, "Wrong bottom val!");
-    mu_assert(s->count == 2, "Wrong count on push!");
+    /* push float 2 */
+    stack_push(s, f2);
+    mu_check(fltcmp(*(float *) s->end->value, *(float *) f2) == 0);
+    mu_check(s->size == 2);
+    mu_check(s->root->value == f1);
+    mu_check(s->end->prev->value == f1);
+    mu_check(fltcmp(*(float *) s->end->prev->value, *(float *) f1) == 0);
 
-    stack_push(s, t3);
-    mu_assert(stack_top(s) == t3, "Wrong top val!");
-    mu_assert(stack_bottom(s) == t1, "Wrong bottom val!");
-    mu_assert(s->count == 3, "Wrong count on push!");
+    /* push float 3 */
+    stack_push(s, f3);
+    mu_check(fltcmp(*(float *) s->end->value, *(float *) f3) == 0);
+    mu_check(s->size == 3);
+    mu_check(s->root->value == f1);
+    mu_check(s->end->prev->value == f2);
+    mu_check(fltcmp(*(float *) s->end->prev->value, *(float *) f2) == 0);
 
-    /* pop tests */
-    val = stack_pop(s);
-    mu_assert(val == t3, "Wrong value on pop!");
-    mu_assert(stack_top(s) == t2, "Wrong top val!");
-    mu_assert(stack_bottom(s) == t1, "Wrong next val!");
-    mu_assert(s->count == 2, "Wrong count on push!");
-
-    val = stack_pop(s);
-    mu_assert(val == t2, "Wrong value on pop!");
-    mu_assert(stack_top(s) == t1, "Wrong top val!");
-    mu_assert(stack_bottom(s) == t1, "Wrong next val!");
-    mu_assert(s->count == 1, "Wrong count on push!");
-
-    val = stack_pop(s);
-    mu_assert(val == t1, "Wrong value on pop!");
-    mu_assert(stack_top(s) == NULL, "Wrong top!");
-    mu_assert(stack_bottom(s) == NULL, "Wrong next val!");
-    mu_assert(s->count == 0, "Wrong count after pop!");
-
+    stack_destroy(s, free);
     return 0;
 }
 
-int test_stack_destroy(void)
+int test_stack_pop(void)
 {
-    stack_push(s, t1);
-    stack_push(s, t2);
-    stack_push(s, t3);
-    stack_destroy(s);
+    struct stack *s = stack_new();
+    float *f1 = malloc_float(2.0);
+    float *f2 = malloc_float(4.0);
+    float *f3 = malloc_float(8.0);
+    float *flt_ptr;
+
+    /* push float 1 */
+    stack_push(s, f1);
+    mu_check(fltcmp(*(float *) s->end->value, *(float *) f1) == 0);
+    mu_check(s->size == 1);
+    mu_check(s->root->value == f1);
+    mu_check(s->end->prev == NULL);
+
+    /* push float 2 */
+    stack_push(s, f2);
+    mu_check(fltcmp(*(float *) s->end->value, *(float *) f2) == 0);
+    mu_check(s->size == 2);
+    mu_check(s->root->value == f1);
+    mu_check(s->end->prev->value == f1);
+    mu_check(fltcmp(*(float *) s->end->prev->value, *(float *) f1) == 0);
+
+    /* push float 3 */
+    stack_push(s, f3);
+    mu_check(fltcmp(*(float *) s->end->value, *(float *) f3) == 0);
+    mu_check(s->size == 3);
+    mu_check(s->root->value == f1);
+    mu_check(s->end->prev->value == f2);
+    mu_check(fltcmp(*(float *) s->end->prev->value, *(float *) f2) == 0);
+
+    /* pop float 3 */
+    flt_ptr = stack_pop(s);
+    mu_check(fltcmp(*(float *) flt_ptr, *(float *) f3) == 0);
+    mu_check(s->size == 2);
+    mu_check(s->root->value == f1);
+    mu_check(fltcmp(*(float *) s->root->value, *(float *) f1) == 0);
+    free(flt_ptr);
+
+    /* pop float 2 */
+    flt_ptr = stack_pop(s);
+    mu_check(fltcmp(*(float *) flt_ptr, *(float *) f2) == 0);
+    mu_check(s->size == 1);
+    mu_check(s->root->value == f1);
+    mu_check(fltcmp(*(float *) s->root->value, *(float *) f1) == 0);
+    free(flt_ptr);
+
+    /* pop float 1 */
+    flt_ptr = stack_pop(s);
+    mu_check(fltcmp(*(float *) flt_ptr, *(float *) f1) == 0);
+    mu_check(s->size == 0);
+    mu_check(s->root == NULL);
+    mu_check(s->end == NULL);
+    free(flt_ptr);
+
+    stack_destroy(s, free);
     return 0;
 }
 
 void test_suite(void)
 {
-    mu_add_test(test_stack_new);
-    mu_add_test(test_stack_push_pop);
-    mu_add_test(test_stack_destroy);
+    mu_add_test(test_stack_new_and_destroy);
+    mu_add_test(test_stack_push);
+    mu_add_test(test_stack_pop);
 }
 
-int main(void)
-{
-    test_suite();
-    mu_report();
-    return 0;
-}
+mu_run_tests(test_suite)

@@ -3,25 +3,28 @@
 
 #include <stdlib.h>
 
-#include "list.h"
-
 
 /* STRUCTURES */
-struct stack
+struct stack_node
 {
-    int limit;
-    int count;
-    struct list *stack;
+    void *value;
+    struct stack_node *next;
+    struct stack_node *prev;
 };
 
+struct stack
+{
+    int size;
+    struct stack_node *root;
+    struct stack_node *end;
+};
+
+
 /* FUNCTIONS */
-struct stack *stack_new(int limit);
-void stack_destroy(struct stack *s);
-int stack_push(struct stack *s, void *data);
+struct stack *stack_new(void);
+void stack_destroy_traverse(struct stack_node *n, void (*free_func)(void  *));
+int stack_destroy(struct stack *s, void (*free_func)(void  *));
+int stack_push(struct stack *s, void *value);
 void *stack_pop(struct stack *s);
-int stack_empty(struct stack *s);
-int stack_full(struct stack *s);
-void *stack_bottom(struct stack *s);
-void *stack_top(struct stack *s);
 
 #endif

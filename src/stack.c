@@ -1,69 +1,82 @@
 #include "stack.h"
 
 
-struct stack *stack_new(int limit)
+struct stack *stack_new(void)
 {
     struct stack *s;
 
-    s = calloc(1, sizeof(struct stack));
-    s->stack = list_new();
-    s->limit = limit;
-    s->count = 0;
+    s = malloc(sizeof(struct stack));
+    s->size = 0;
+    s->root = NULL;
+    s->end = NULL;
 
     return s;
 }
 
-void stack_destroy(struct stack *s)
+void stack_destroy_traverse(struct stack_node *n, void (*free_func)(void  *))
 {
-    list_destroy(s->stack);
-    free(s);
+    if (n->next) {
+        stack_destroy_traverse(n->next, free_func);
+    }
+    free_func(n->value);
+    free(n);
+    n = NULL;
 }
 
-int stack_push(struct stack *s, void *data)
+int stack_destroy(struct stack *s, void (*free_func)(void  *))
 {
-    list_push(s->stack, data);
-    s->count++;
+    if (s->root) {
+        stack_destroy_traverse(s->root, free_func);
+    }
+    free(s);
+    s = NULL;
+
+    return 0;
+}
+
+int stack_push(struct stack *s, void *value)
+{
+    struct stack_node *n;
+    struct stack_node *prev_end;
+
+    n = malloc(sizeof(struct stack_node));
+    if (n == NULL) {
+        return -1;
+    }
+
+    prev_end = s->end;
+    n->value = value;
+    n->next = NULL;
+    n->prev = prev_end;
+
+    if (s->size == 0)  {
+        s->root = n;
+        s->end = n;
+    } else {
+        prev_end->next = n;
+        s->end = n;
+    }
+    s->size++;
+
     return 0;
 }
 
 void *stack_pop(struct stack *s)
 {
-    void *data;
+    void *value = s->end->value;
+    struct stack_node *previous = s->end->prev;
 
-    data = list_pop(s->stack);
-    s->count--;
-
-    return data;
-}
-
-int stack_empty(struct stack *s)
-{
-    return (s->count == 0) ? 1 : 0;
-}
-
-int stack_full(struct stack *s)
-{
-    if (s->limit != 0 && s->limit == s->count) {
-        return 1;
+    free(s->end);
+    if (s->size > 1) {
+        previous->next = NULL;
+        s->end = previous;
     } else {
-        return 0;
+        s->root = NULL;
+        s->end = NULL;
     }
+    s->size--;
+
+    return value;
 }
 
-void *stack_bottom(struct stack *s)
-{
-    if (s->count != 0) {
-        return s->stack->first->value;
-    } else {
-        return NULL;
-    }
-}
 
-void *stack_top(struct stack *s)
-{
-    if (s->count != 0) {
-        return s->stack->last->value;
-    } else {
-        return NULL;
-    }
-}
