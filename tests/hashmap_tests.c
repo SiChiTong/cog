@@ -78,6 +78,17 @@ int test_hashmap_new_destroy(void)
     return 0;
 }
 
+int test_hashmap_clear_destroy(void)
+{
+    struct hashmap *map;
+
+    map = hashmap_new();
+    hashmap_set(map, "test", "hello");
+    hashmap_clear_destroy(map);
+
+    return 0;
+}
+
 int test_hashmap_get_set(void)
 {
     int rc;
@@ -207,6 +218,7 @@ int test_hashmap_traverse(void)
 void test_suite(void)
 {
     mu_add_test(test_hashmap_new_destroy);
+    mu_add_test(test_hashmap_clear_destroy);
     mu_add_test(test_hashmap_get_set);
     mu_add_test(test_hashmap_delete);
     mu_add_test(test_hashmap_traverse);

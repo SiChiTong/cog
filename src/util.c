@@ -71,7 +71,7 @@ int trim_char(const char c)
     int i;
     const char trim[4] = {'\n', '\t', '\r', ' '};
 
-    for (i = 0; i < (int) strlen(trim); i++) {
+    for (i = 0; i < 4; i++) {
         if (c == trim[i]) {
             return 1;
         }
