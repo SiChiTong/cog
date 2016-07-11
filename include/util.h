@@ -2,6 +2,7 @@
 #define __UTIL_H__
 
 #include <math.h>
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -153,6 +154,10 @@ char *path_join(int len, ...);
 /* I/O */
 char getch(void);
 char getche(void);
+
+/* TIMING */
+void tic(struct timespec *tic);
+float toc(struct timespec *tic);
 
 
 #endif
