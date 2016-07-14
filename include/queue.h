@@ -1,5 +1,5 @@
-#ifndef __QUEUE_H__
-#define __QUEUE_H__
+#ifndef __COG_QUEUE_H__
+#define __COG_QUEUE_H__
 
 #include <stdlib.h>
 

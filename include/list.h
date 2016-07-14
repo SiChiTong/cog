@@ -1,5 +1,5 @@
-#ifndef __LIST_H__
-#define __LIST_H__
+#ifndef __COG_LIST_H__
+#define __COG_LIST_H__
 
 #include <stdlib.h>
 

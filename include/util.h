@@ -1,5 +1,5 @@
-#ifndef __UTIL_H__
-#define __UTIL_H__
+#ifndef __COG_UTIL_H__
+#define __COG_UTIL_H__
 
 #include <math.h>
 #include <time.h>
