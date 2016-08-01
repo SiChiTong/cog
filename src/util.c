@@ -59,9 +59,14 @@ double *malloc_double(double d)
 char *malloc_string(const char *s)
 {
     char *str_ptr;
-    str_ptr = malloc(sizeof(char) * strlen(s) + 1);
-    strcpy(str_ptr, s);
-    return str_ptr;
+
+    if (s != NULL) {
+        str_ptr = malloc(sizeof(char) * strlen(s) + 1);
+        strcpy(str_ptr, s);
+        return str_ptr;
+    } else {
+        return NULL;
+    }
 }
 
 

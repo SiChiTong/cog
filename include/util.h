@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <termios.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 
 
 
