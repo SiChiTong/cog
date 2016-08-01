@@ -30,9 +30,8 @@
 #endif
 #define log_err(M, ...) \
     fprintf(stderr,\
-        "[ERROR] (%s:%d) " M "\n",\
-        __FILE__,\
-        __LINE__,\
+        "[ERROR] [%s] " M "\n",\
+        __func__,\
         ##__VA_ARGS__\
     )
 #define log_warn(M, ...) \

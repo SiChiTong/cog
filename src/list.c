@@ -297,5 +297,4 @@ int list_remove_destroy(
     return 0;
 error:
     return -1;
-
 }
