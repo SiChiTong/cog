@@ -151,7 +151,7 @@ error:
     return NULL;
 }
 
-char **split(const char *s, const char *token)
+char **split(const char *s, const char *token, int *nb_elements)
 {
     char *el;
     char **elements;
@@ -189,6 +189,7 @@ char **split(const char *s, const char *token)
         el = strtok (NULL, token);
     }
 
+    *nb_elements = num_of_elements;
     return elements;
 error:
     free_mem(elements, free);

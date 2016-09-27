@@ -104,7 +104,7 @@ char *malloc_string(const char *s);
 int trim_char(const char c);
 char *trim(const char *s);
 char **split_kv(const char *s, const char token);
-char **split(const char *s, const char *token);
+char **split(const char *s, const char *token, int *nb_elements);
 char *strex(const char *s, const char *open, const char *close);
 
 
