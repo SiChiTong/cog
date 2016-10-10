@@ -18,12 +18,14 @@ void stack_destroy_traverse(struct stack_node *n, void (*free_func)(void  *))
     if (n->next) {
         stack_destroy_traverse(n->next, free_func);
     }
-    free_func(n->value);
+    if (free_func) {
+        free_func(n->value);
+    }
     free(n);
     n = NULL;
 }
 
-int stack_destroy(struct stack *s, void (*free_func)(void  *))
+void stack_clear_destroy(struct stack *s, void (*free_func)(void  *))
 {
     if (s->root) {
         stack_destroy_traverse(s->root, free_func);
@@ -31,7 +33,16 @@ int stack_destroy(struct stack *s, void (*free_func)(void  *))
     free(s);
     s = NULL;
 
-    return 0;
+}
+
+void stack_destroy(struct stack *s)
+{
+    if (s->root) {
+        stack_destroy_traverse(s->root, NULL);
+    }
+    free(s);
+    s = NULL;
+
 }
 
 int stack_push(struct stack *s, void *value)

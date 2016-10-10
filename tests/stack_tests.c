@@ -18,7 +18,7 @@ int test_stack_new_and_destroy(void)
     mu_check(s->root == NULL);
     mu_check(s->end == NULL);
 
-    stack_destroy(s, free);
+    stack_clear_destroy(s, free);
     return 0;
 }
 
@@ -52,7 +52,7 @@ int test_stack_push(void)
     mu_check(s->end->prev->value == f2);
     mu_check(fltcmp(*(float *) s->end->prev->value, *(float *) f2) == 0);
 
-    stack_destroy(s, free);
+    stack_clear_destroy(s, free);
     return 0;
 }
 
@@ -111,7 +111,7 @@ int test_stack_pop(void)
     mu_check(s->end == NULL);
     free(flt_ptr);
 
-    stack_destroy(s, free);
+    stack_clear_destroy(s, free);
     return 0;
 }
 

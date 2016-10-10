@@ -16,6 +16,7 @@ int test_fltcmp(void);
 int test_epsilon_float_cmp(void);
 int test_trim_char(void);
 int test_trim(void);
+int test_split(void);
 int test_copy_value(void);
 int test_strex(void);
 int test_randi(void);
@@ -147,6 +148,24 @@ int test_trim(void)
 
     result = trim(test_2);
     mu_check(strcmp(result, "World") == 0);
+    free(result);
+
+    return 0;
+}
+
+int test_split(void)
+{
+    char **result;
+    int size;
+    const char *test_1 = "\nHello World\n ";
+
+    result = split(test_1, " ", &size);
+    mu_check(strcmp(result[0], "Hello") == 0);
+    mu_check(strcmp(result[1], "World") == 0);
+    mu_check(size == 2);
+
+    free(result[0]);
+    free(result[1]);
     free(result);
 
     return 0;
@@ -318,6 +337,7 @@ void test_suite(void)
 
     mu_add_test(test_trim_char);
     mu_add_test(test_trim);
+    mu_add_test(test_split);
     mu_add_test(test_copy_value);
 
     mu_add_test(test_randi);

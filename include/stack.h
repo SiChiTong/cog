@@ -23,7 +23,8 @@ struct stack
 /* FUNCTIONS */
 struct stack *stack_new(void);
 void stack_destroy_traverse(struct stack_node *n, void (*free_func)(void  *));
-int stack_destroy(struct stack *s, void (*free_func)(void  *));
+void stack_clear_destroy(struct stack *s, void (*free_func)(void  *));
+void stack_destroy(struct stack *s);
 int stack_push(struct stack *s, void *value);
 void *stack_pop(struct stack *s);
 

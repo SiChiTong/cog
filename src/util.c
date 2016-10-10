@@ -153,6 +153,7 @@ error:
 
 char **split(const char *s, const char *token, int *nb_elements)
 {
+    char *s_trimmed;
     char *el;
     char **elements;
     char buf[9046];
@@ -162,10 +163,11 @@ char **split(const char *s, const char *token, int *nb_elements)
     /* pre-check */
     elements = NULL;
     silent_check(s != NULL);
+    s_trimmed = trim(s);
 
     /* calculate number of elements */
     bzero(buf, 9046);
-    strcpy(buf, s);
+    strcpy(buf, s_trimmed);
 
     el = strtok(buf, token);
     num_of_elements = 0;
@@ -179,7 +181,7 @@ char **split(const char *s, const char *token, int *nb_elements)
 
     elements = malloc(sizeof(char *) * num_of_elements);
     bzero(buf, 9046);
-    strcpy(buf, s);
+    strcpy(buf, s_trimmed);
 
     index = 0;
     el = strtok(buf, token);
@@ -190,8 +192,10 @@ char **split(const char *s, const char *token, int *nb_elements)
     }
 
     *nb_elements = num_of_elements;
+    free(s_trimmed);
     return elements;
 error:
+    free(s_trimmed);
     free_mem(elements, free);
     return NULL;
 }
