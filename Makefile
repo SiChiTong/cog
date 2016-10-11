@@ -30,7 +30,7 @@ clean: rmdirs
 
 install:
 	@echo "installing cog to [$(PREFIX)/lib]"
-	@cp .$(LIB_DIR)/libcog.a $(PREFIX)/lib
+	@cp $(LIB_DIR)/libcog.a $(PREFIX)/lib
 	@mkdir -p $(PREFIX)/include/cog
 	@cp include/* $(PREFIX)/include/cog/
 	@echo "cog installed!"
