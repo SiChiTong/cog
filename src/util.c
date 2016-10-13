@@ -218,42 +218,44 @@ error:
 /* RANDOM */
 int randi(int min, int max)
 {
-    int divisor = RAND_MAX / (max + 1);
-    int retval = rand() / divisor;
+    int divisor;
+    int retval;
 
     /* pre-check */
-    if (min == max) {
+    if (min == max || min > max) {
         return min;
     }
-    check(max > min, "Lower bound is bigger than upper bound!");
+
+    /* setup */
+    divisor = RAND_MAX / (max + 1);
+    retval = rand() / divisor;
 
     while (retval < min || retval > max) {
         retval = rand() / divisor;
     }
 
     return retval;
-error:
-    return min + 1;
 }
 
 float randf(float min, float max)
 {
-    float divisor = (float) RAND_MAX / (float) (max + 1.0);
-    float retval = rand() / divisor;
+    float divisor;
+    float retval;
 
     /* pre-check */
-    if (fltcmp(min, max) == 0) {
+    if (min > max) {
         return min;
     }
-    check(max > min, "Lower bound is bigger than upper bound!");
+
+    /* setup */
+    divisor = (float) RAND_MAX / (float) (max + 1.0);
+    retval = rand() / divisor;
 
     while (retval < min || retval > max) {
         retval = rand() / divisor;
     }
 
     return retval;
-error:
-    return min + 1;
 }
 
 char *randstr(size_t length)
