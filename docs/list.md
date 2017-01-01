@@ -1,4 +1,4 @@
-# list.h
+# cog/list.h
 
 **Contents**:
 - Structures

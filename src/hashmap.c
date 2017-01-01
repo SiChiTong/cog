@@ -50,7 +50,7 @@ struct hashmap *hashmap_new(void)
 
     /* setup */
     list_sz = sizeof(struct darray *);
-    map = calloc(1, sizeof(struct hashmap));
+    map = malloc(sizeof(struct hashmap));
     check_mem(map);
 
     /* create bucket */

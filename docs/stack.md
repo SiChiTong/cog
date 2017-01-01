@@ -1,4 +1,4 @@
-# stack.h
+# cog/stack.h
 
 
 ## Structures

@@ -29,16 +29,16 @@ clean: rmdirs
 	@echo "done! :)"
 
 install:
-	@echo "installing cog to [$(PREFIX)/lib]"
-	@cp $(LIB_DIR)/libcog.a $(PREFIX)/lib
-	@mkdir -p $(PREFIX)/include/cog
-	@cp include/* $(PREFIX)/include/cog/
+	@echo "installing cog to [${PREFIX}/lib]"
+	@cp ./lib/libcog.a ${PREFIX}/lib
+	@mkdir -p ${PREFIX}/include/cog
+	@cp include/* ${PREFIX}/include/cog/
 	@echo "cog installed!"
 
 uninstall:
 	@echo "removing cog"
-	@rm $(PREFIX)/lib/libcog.a
-	@rm -rf $(PREFIX)/include/cog
+	@rm ${PREFIX}/lib/libcog.a
+	@rm -rf ${PREFIX}/include/cog
 
 done:
 	@echo "done! :)"

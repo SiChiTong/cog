@@ -5,7 +5,6 @@
 #include "cog/hashmap.h"
 #include "cog/munit.h"
 #include "cog/queue.h"
-#include "cog/sort.h"
 #include "cog/stack.h"
 #include "cog/util.h"
 
