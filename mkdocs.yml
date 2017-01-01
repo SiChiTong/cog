@@ -1,7 +1,9 @@
 site_name: cog
+site_author: Chris Choi
+repo_url: https://github.com/chutsu/cog
+
 pages:
-- Cog: index.md
-- Installation: installation.md
+- Home: index.md
 - API:
     - darray: api/darray.md
     - hashmap: api/hashmap.md
@@ -9,6 +11,5 @@ pages:
     - munit: api/munit.md
     - stack: api/stack.md
     - utils: api/utils.md
-- license: license.md
 
 theme: readthedocs
