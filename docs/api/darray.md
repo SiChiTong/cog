@@ -33,7 +33,7 @@
     #define DARRAY_EEXPAND "failed to expand array to new size: %d"
 
 
-## FUNCTIONS
+## Functions
 
     struct darray *darray_new(size_t element_size, size_t initial_max);
     void darray_destroy(struct darray *array);
